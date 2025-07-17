@@ -2,11 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
+use App\Entity\Caves;
 use App\Entity\Bouteilles;
+use App\Entity\CommentairesCaves;
+use App\Entity\CommentairesBouteilles;
 use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
