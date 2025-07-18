@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+	<h2> S'incrire</h2>
+
+    {{ form_start(userForm) }}
+
+        <div class="form-group">
+            {{ form_row(userForm.email, {
+                'label': 'Adresse email',
+                'label_attr': {'class': 'form-label'},
+                'attr': {'placeholder': 'ex: un-verre-par-jour@wine.com', 'class': 'form-input'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.username, {
+                'label': 'Pseudo',
+                'label_attr': {'class': 'form-label'},
+                'attr': {'placeholder': 'ex: Le caviste du 24', 'class': 'form-input'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.password.first, {
+                'label': 'Mot de passe',
+                'label_attr': {'class': 'form-label'},
+                'attr': {'class': 'form-input'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(userForm.password.second, {
+                'label': 'Confirmez le mot de passe',
+                'label_attr': {'class': 'form-label'},
+                'attr': {'class': 'form-input'}
+            }) }}
+        </div>
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(userForm) }}
+{% endblock %}

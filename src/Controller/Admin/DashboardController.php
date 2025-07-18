@@ -53,8 +53,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Bouteilles', 'fas fa-list', Bouteilles::class);
         yield MenuItem::linkToCrud('Caves', 'fas fa-list', Caves::class);
-        yield MenuItem::linkToCrud('CommentairesBouteilles', 'fas fa-list', CommentairesBouteilles::class);
-        yield MenuItem::linkToCrud('CommentairesCaves', 'fas fa-list', CommentairesCaves::class);
-        yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Commentaires des Bouteilles', 'fas fa-list', CommentairesBouteilles::class);
+        yield MenuItem::linkToCrud('Commentaires des Caves', 'fas fa-list', CommentairesCaves::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
     }
 }

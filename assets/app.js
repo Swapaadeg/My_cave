@@ -7,3 +7,14 @@
 import './styles/app.scss';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.querySelector('.burger');
+  const navbar = document.querySelector('.navbar');
+
+  if (burger) {
+    burger.addEventListener('click', () => {
+      navbar.classList.toggle('open');
+    });
+  }
+});
