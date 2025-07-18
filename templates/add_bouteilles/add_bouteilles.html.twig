@@ -1,7 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une bouteille{% endblock %}
+{% block title %}Ajouter une Bouteille{% endblock %}
 
 {% block body %}
+    <h2>Ajouter une bouteille</h2>
+    <div class="bouteille-form-container">
 
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        <div class="form-grid">
+            <div class="form-group">
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.millesime) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.cepage) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.type) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.pays, {'label': "Pays d'origine"}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.region) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.imageFile, {'label': 'Ajouter une image'}) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.description) }}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Ajouter une bouteille</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

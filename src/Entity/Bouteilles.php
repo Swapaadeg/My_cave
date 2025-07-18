@@ -258,6 +258,16 @@ class Bouteilles
     return $this->imageFile;
     }
 
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        // Nécessaire pour que Doctrine détecte une modification
+        if ($imageFile !== null) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
     public function setImageName(?string $imageName): void {
         $this->imageName = $imageName;
     }
