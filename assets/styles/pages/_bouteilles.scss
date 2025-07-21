@@ -1,0 +1,105 @@
+@use '../abstracts/variables' as v;
+
+.bouteilles-wrapper {
+    padding: 4rem 2rem;
+
+    h1 {
+        text-align: center;
+        color: v.$dark-red;
+        margin-bottom: 3rem;
+        letter-spacing: 3px;
+        font-family: v.$font-title;
+    }
+
+    .bouteilles-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .bouteille-card {
+        background-color: v.$cream;
+        border: 1px solid v.$cream;
+        border-radius: 10px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: all 0.3s ease;
+
+        .card-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .image-wrapper {
+            height: 400px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+        }
+
+        .infos {
+            padding: 1rem;
+            font-family: v.$font-text;
+            color: v.$black;
+            text-align: center;
+
+            h2 {
+                font-family: v.$font-title;
+                color: v.$dark-red;
+                font-size: 1.4rem;
+                margin: 1rem 0;
+            }
+
+            .details {
+                display: none;
+
+                p {
+                    margin: 0.3rem 0;
+
+                    strong {
+                        color: v.$plum;
+                    }
+                }
+
+                .description {
+                    margin-top: 1rem;
+                    font-style: italic;
+                }
+            }
+        }
+
+        &:hover {
+            .card-inner {
+                flex-direction: row;
+            }
+
+            .image-wrapper {
+                width: 100%;
+                height: auto;
+            }
+
+            .infos {
+                text-align: left;
+                padding: 2rem;
+
+                h2 {
+                    display: none;
+                }
+
+                .details {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+
