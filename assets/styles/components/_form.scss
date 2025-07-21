@@ -42,7 +42,6 @@
         width: 100%;
 
         label {
-        margin-bottom: 0.5rem;
         color: v.$cream;
         font-family: v.$font-semi-bold;
         }
@@ -50,17 +49,18 @@
         input, select, textarea {
             width: 100%;
             padding: 0.5rem;
+            margin-top: 0.5rem;
             border-radius: 6px;
             border: 2px solid v.$dark-red;
             font-family: inherit;
             font-size: 1rem;
             background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); // 👈 Ajout ici
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
             transition: box-shadow 0.2s ease-in-out;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(136, 0, 45, 0.2); // reflet bordeaux
+            box-shadow: 0 0 0 3px rgba(136, 0, 45, 0.2);
             border-color: v.$wine-red;
         }
     }

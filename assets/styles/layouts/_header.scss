@@ -90,7 +90,6 @@
                 font-family: v.$font-semi-bold;
                 transition: color 0.2s;
                 letter-spacing: 5px;
-
                 &:hover {
                     color: v.$plum;
                 }
@@ -100,6 +99,11 @@
                 border-top: 1px solid v.$dark-red;
                 margin: 0.3rem 0;
                 align-self: center;
+            }
+            &.greeting {
+                color: v.$dark-red;
+                font-family: v.$font-semi-bold;
+                letter-spacing: 5px;
             }
         }
     }

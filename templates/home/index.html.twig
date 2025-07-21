@@ -3,7 +3,29 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<a href="{{ path('add_bouteilles') }}">Ajouter une bouteille</a></li>
-<a href="{{ path('add_caves') }}">Créer ma cave</a></li>
+    <main>
+        <section class="banner">
+            <div class="image-wrapper">
+                <img src="{{ asset('banner.jpg') }}" alt="Image d'une vigne avec un coucher de soleil">
+            </div>
+        </section>
+
+        <section class="presentation__wrapper container">
+            <h1>MY CAVE</h1>
+            <div class="presentation">
+                <div class="img">
+                    <img src="{{ asset('cave-voute.jpg') }}" alt="Entrée de cave voûtée avec bouteilles entreposées">
+                </div>
+                <div class="texte">
+                    <p><span>My Cave</span>, c'est la mémoire liquide des instants précieux. Une cave élégante, vivante, personnelle — pensée pour les amateurs éclairés, les passionnés discrets, les conteurs de vin. Ici, chaque bouteille a une histoire. Et chaque histoire mérite sa place.</p>
+                    <p>Chez <span>My Cave</span>, nous croyons que le vin ne se résume pas à une étiquette ou un prix. C’est un souvenir de table partagée, un voyage sensoriel, une promesse d’émotion à chaque ouverture.
+                    Notre plateforme vous permet de conserver vos trésors, de suivre leur évolution, de raconter votre collection comme on écrit un carnet de voyage.</p>
+                    <a href="{{ path('bouteilles') }}" class="btn">Voir nos bouteilles</a>
+                </div>
+            </div>
+        </section>
+        <a href="{{ path('add_bouteilles') }}">Ajouter une bouteille</a></li>
+        <a href="{{ path('add_caves') }}">Créer ma cave</a></li>
+    </main>
 
 {% endblock %}
