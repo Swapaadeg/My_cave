@@ -2,16 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\BouteillesRepository;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BouteillesRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[Vich\Uploadable]
+#[UniqueEntity(
+    fields: ['nom', 'millesime', 'region', 'cepage'],
+    message: 'Une bouteille identique existe déjà avec ce nom, millésime, région et cépage.'
+)]
 #[ORM\Entity(repositoryClass: BouteillesRepository::class)]
+#[ORM\Table(name: 'bouteilles')]
+#[ORM\UniqueConstraint(name: 'unique_bouteille_combo', columns: ['nom', 'millesime', 'region', 'cepage'])]
 class Bouteilles
 {
     #[ORM\Id]
@@ -40,25 +47,15 @@ class Bouteilles
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    /**
-     * @var Collection<int, NotesBouteilles>
-     */
     #[ORM\OneToMany(targetEntity: NotesBouteilles::class, mappedBy: 'bouteille')]
     private Collection $notesBouteilles;
 
-    /**
-     * @var Collection<int, CommentairesBouteilles>
-     */
     #[ORM\OneToMany(targetEntity: CommentairesBouteilles::class, mappedBy: 'bouteille')]
     private Collection $commentairesBouteilles;
 
-    /**
-     * @var Collection<int, Caves>
-     */
     #[ORM\ManyToMany(targetEntity: Caves::class, mappedBy: 'caves_bouteilles')]
     private Collection $bouteilles_caves;
 
-    //UPLOAD DES IMAGES
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
     
@@ -67,6 +64,9 @@ class Bouteilles
 
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -284,5 +284,17 @@ class Bouteilles
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

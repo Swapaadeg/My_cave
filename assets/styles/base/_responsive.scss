@@ -1,9 +1,12 @@
 @use '../abstracts/variables' as v;
 
+//RESPONSIVE 900
 @media screen and (max-width: 900px) {
     .container {
         padding: 0 2rem;
     }
+
+    //NAVBAR
     .navbar {
         flex-direction: column;
         align-items: flex-start;
@@ -66,11 +69,19 @@
             }
         }
     }
+
+    .bouteilles-wrapper .bouteilles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 
-// Responsive
+
+
+// Responsive 768
 @media screen and (max-width: 768px) {
+
+    //HOMEPAGE
     .form-grid {
         grid-template-columns: 1fr;
 
@@ -109,6 +120,10 @@
                 }
             }
         }
+    }
+
+    .bouteilles-wrapper .bouteilles-grid {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer ma cave{% endblock %}
+
+{% block body %}
+<section class="container">
+    <h1>Créer votre cave</h1>
+    <p>Vous n'avez pas encore de cave. Remplissez ce formulaire pour en créer une.</p>
+
+    {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.imageFile) }}
+        <button type="submit" class="btn">Créer</button>
+    {{ form_end(form) }}
+</section>
+{% endblock %}

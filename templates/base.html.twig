@@ -28,7 +28,7 @@
                 <ul class="bottle-nav">
                     <li><a href="{{ path('home') }}" class="bottle-link">Accueil</a></li>
                     <li><a href="{{ path('caves') }}" class="bottle-link">Toutes<br>les<br>caves</a></li>
-                    <li><a href="{{ path('caves') }}" class="bottle-link">Ma cave</a></li>
+                    <li><a href="{{ path('cave_perso') }}" class="bottle-link">Ma cave</a></li>
                     <li><a href="{{ path('bouteilles') }}" class="bottle-link">Nos bouteilles</a></li>
                     <li><a href="{{ path('contact') }}" class="bottle-link">Contact</a></li>
                 </ul>
@@ -59,7 +59,7 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </body>
 </html>

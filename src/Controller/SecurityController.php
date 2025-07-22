@@ -47,8 +47,6 @@ class SecurityController extends AbstractController
         
         $user = new User;
       
-        
-
         // Récupération du formulaire et association avec l'objet
         $form = $this->createForm(InscriptionType::class,$user);
 

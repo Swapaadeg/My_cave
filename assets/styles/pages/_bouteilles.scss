@@ -1,7 +1,9 @@
 @use '../abstracts/variables' as v;
+@use 'sass:color';
 
 .bouteilles-wrapper {
     padding: 4rem 2rem;
+    background-color: #88002d1b;
 
     h1 {
         text-align: center;
@@ -18,12 +20,18 @@
     }
 
     .bouteille-card {
-        background-color: v.$cream;
+        background: linear-gradient(
+            135deg,
+            color.adjust(v.$plum, $lightness: 20%) 0%,
+            v.$plum 40%,
+            color.adjust(v.$plum, $lightness: -15%) 100%
+        );
         border: 1px solid v.$cream;
         border-radius: 10px;
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         transition: all 0.3s ease;
+        color: v.$cream;
 
         .card-inner {
             display: flex;
@@ -48,7 +56,7 @@
         .infos {
             padding: 1rem;
             font-family: v.$font-text;
-            color: v.$black;
+            color: v.$cream;
             text-align: center;
 
             h2 {
@@ -65,7 +73,7 @@
                     margin: 0.3rem 0;
 
                     strong {
-                        color: v.$plum;
+                        color: v.$black;
                     }
                 }
 
@@ -82,11 +90,12 @@
             }
 
             .image-wrapper {
-                width: 100%;
+                width: 50%;
                 height: auto;
             }
 
             .infos {
+                width: 50%;
                 text-align: left;
                 padding: 2rem;
 
@@ -102,4 +111,40 @@
     }
 }
 
+// MODALE FLASH
 
+.modale-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modale-content {
+    background: #FAF3F0;
+    padding: 2rem;
+    border-radius: 10px;
+    color: #1A1A1A;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modale-close {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #88002D;
+    border: none;
+    color: #FAF3F0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}

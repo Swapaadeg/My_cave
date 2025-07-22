@@ -5,13 +5,12 @@ namespace App\Form;
 use App\Entity\Caves;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Validator\Constraints\File; // <-- Import correct
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class AddCavesType extends AbstractType
+class EditCaveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,22 +23,10 @@ class AddCavesType extends AbstractType
                 'required' => false,
             ])
             ->add('imageFile', VichImageType::class, [
+                'label' => 'Image',
                 'required' => false,
-                'label' => 'Image de votre cave',
                 'download_uri' => false,
-                'image_uri' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '5M',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif',
-                            'image/webp',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpg, png, gif, webp).',
-                    ])
-                ],
+                'image_uri' => true,
             ]);
     }
 
@@ -50,3 +37,4 @@ class AddCavesType extends AbstractType
         ]);
     }
 }
+

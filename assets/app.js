@@ -8,6 +8,7 @@ import './styles/app.scss';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
+//Menu
 document.addEventListener('DOMContentLoaded', () => {
   const burger = document.querySelector('.burger');
   const navbar = document.querySelector('.navbar');
@@ -18,3 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+
+// MODALE 
+
+  function fermerModale() {
+        const modale = document.getElementById('modale-flash');
+        if (modale) {
+            modale.style.display = 'none';
+        }
+    }
+
+    // Fermer automatiquement après 3 secondes
+    setTimeout(() => {
+        fermerModale();
+    }, 3000);

@@ -36,6 +36,10 @@
                                 <p><strong>Pays :</strong> {{ bouteille.pays }}</p>
                                 <p><strong>Région :</strong> {{ bouteille.region }}</p>
                                 <p class="description">{{ bouteille.description }}</p>
+                                <form method="POST" action="{{ path('cave-add-bouteilles', { id: bouteille.id }) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
+                                    <button type="submit" class="btn">Ajouter à ma cave</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -43,7 +47,20 @@
             {% endfor %}
         </div>
     {% endif %}
-</section>
 
+    {# MODALE FLASH  #}
+    {% for label, messages in app.flashes %}
+        {% if label == 'success' %}
+            <div class="modale-flash" id="modale-flash">
+                <div class="modale-content">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                    <button class="modale-close" onclick="fermerModale()">Fermer</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</section>
 
 {% endblock %}

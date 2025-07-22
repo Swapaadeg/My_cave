@@ -66,6 +66,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    /**
+     * @var Collection<int, Bouteilles>
+     */
+    #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'user')]
+    private Collection $bouteilles;
+
     public function __construct()
     {
         $this->caves = new ArrayCollection();
@@ -73,6 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notesBouteilles = new ArrayCollection();
         $this->commentairesCaves = new ArrayCollection();
         $this->commentairesBouteilles = new ArrayCollection();
+        $this->bouteilles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,6 +310,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bouteilles>
+     */
+    public function getBouteilles(): Collection
+    {
+        return $this->bouteilles;
+    }
+
+    public function addBouteille(Bouteilles $bouteille): static
+    {
+        if (!$this->bouteilles->contains($bouteille)) {
+            $this->bouteilles->add($bouteille);
+            $bouteille->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBouteille(Bouteilles $bouteille): static
+    {
+        if ($this->bouteilles->removeElement($bouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($bouteille->getUser() === $this) {
+                $bouteille->setUser(null);
+            }
+        }
 
         return $this;
     }
