@@ -61,6 +61,41 @@
             </div>
         {% endif %}
     {% endfor %}
+
+    {# PAGINATION #}
+    <div class="pagination">
+        <ul>
+            {# Page précédente #}
+            {% if bouteilles.paginationData.previous is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.previous})) }}">
+                        &laquo;
+                    </a>
+                </li>
+            {% endif %}
+
+            {# Affiche les pages 1 à total #}
+            {% for i in 1..bouteilles.paginationData.pageCount %}
+                <li class="{{ i == bouteilles.paginationData.current ? 'current' : '' }}">
+                    {% if i == bouteilles.paginationData.current %}
+                        <span>{{ i }}</span>
+                    {% else %}
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            {# Page suivante #}
+            {% if bouteilles.paginationData.next is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.next})) }}">
+                        &raquo;
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
 </section>
 
 {% endblock %}

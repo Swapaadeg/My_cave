@@ -24,7 +24,62 @@
                 </div>
             </div>
         </section>
-        <a href="{{ path('add_bouteilles') }}">Ajouter une bouteille</a></li>
+
+        <section class="site-counters container">
+            <div class="counter">
+                
+                <img src="{{ asset('etagere.svg') }}" alt="Logo de bouteilles">
+                <span class="counter-value">{{ bouteillesCount }}</span>
+                <span class="counter-label">Bouteilles</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('tonneau-de-vin.svg') }}" alt="Logo de tonneau">
+                <span class="counter-value">{{ cavesCount }}</span>
+                <span class="counter-label">Caves</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('agriculture.svg') }}" alt="Logo d'un agriculteur">
+                <span class="counter-value">{{ usersCount }}</span>
+                <span class="counter-label">Personnes inscrites</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('raisins.svg') }}" alt="Logo de grappe de raisin">
+                <span class="counter-value">{{ cepagesCount }}</span>
+                <span class="counter-label">Cépages</span>
+            </div>
+        </section>
+        <span class="separator"></span>
+
+        <section class="latest-caves container">
+            <div class="latest_caves_t">
+                <h2>Les Caves</h2>
+            </div>
+            <div class="caves-gallery">
+                {% for cave in latestCaves %}
+                    <a href="{{ path('cave_perso', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
+                        <div class="bottle-inner">
+                            <!-- FACE AVANT -->
+                            <div class="bottle-face bottle-front">
+                                <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                                <div class="label-box">
+                                    <h3>{{ cave.nom|upper }}</h3>
+                                </div>
+                            </div>
+                            <!-- FACE ARRIÈRE -->
+                            <div class="bottle-face bottle-back">
+                                <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                                <div class="label-box">
+                                    <h2>{{ cave.nom }}</h2>
+                                        <p>{{ cave.description }}</p>
+                                        <p><strong>Créée par :</strong>{{ cave.cave.username }}</p>
+                                        <p><strong>Le :</strong> {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'Date inconnue' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
     </main>
 
 {% endblock %}

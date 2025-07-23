@@ -36,7 +36,7 @@ final class CavePersoController extends AbstractController
                 $cave->setUpdatedAt(new \DateTimeImmutable());
                 $em->persist($cave);
                 $em->flush();
-                $this->addFlash('success', 'Votre cave a été créée !');
+                $this->addFlash('success', 'Votre cave a bien été créée !');
                 return $this->redirectToRoute('cave_perso');
             }
             

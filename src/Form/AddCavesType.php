@@ -33,11 +33,12 @@ class AddCavesType extends AbstractType
                         'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
+                            'image/jpg',
                             'image/png',
                             'image/gif',
                             'image/webp',
                         ],
-                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpg, png, gif, webp).',
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpg, png, gif, webp, jpg).',
                     ])
                 ],
             ]);

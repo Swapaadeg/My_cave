@@ -29,7 +29,7 @@ class Caves
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'caves')]
-    private ?user $cave = null;
+    private ?User $cave = null;
 
     /**
      * @var Collection<int, NotesCaves>

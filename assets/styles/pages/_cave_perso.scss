@@ -1,0 +1,17 @@
+@use '../abstracts/variables' as v;
+
+.cave-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .btn {
+        width: 10%;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .btn.add {
+        margin-top: -1.5rem;
+    }
+}

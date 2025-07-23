@@ -60,12 +60,9 @@
             text-align: center;
 
             h2 {
-                font-family: v.$font-title;
-                color: v.$dark-red;
                 font-size: 1.4rem;
-                margin: 1rem 0;
             }
-
+            
             .details {
                 display: none;
 
@@ -147,4 +144,43 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+}
+
+// PAGINATION
+
+.pagination {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+
+    li {
+      a, span {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: v.$dark-red;
+        border: 1px solid v.$dark-red;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: v.$font-semi-bold;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: v.$dark-red;
+          color: #fff;
+        }
+      }
+
+      &.current > span {
+        background-color: v.$dark-red;
+        color: v.$cream;
+        font-weight: bold;
+      }
+    }
+  }
 }

@@ -1,0 +1,95 @@
+@use '../abstracts/variables' as v;
+
+.caves-gallery {
+    width: 90%;
+    margin: 4rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-image: url(../../img/fond-cave.jpg);
+    background-position: center;
+    background-size: cover;
+    gap: 2rem;
+    padding: 4rem;
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    
+    .bottle-container {
+        width: 500px;
+        height: 700px;
+        perspective: 1200px;
+        
+        .bottle-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        &:hover .bottle-inner {
+            transform: rotateY(180deg);
+        }
+
+        .bottle-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+
+        .bottle-front {
+            .label-box {
+                color: v.$dark-red;
+                padding: 0.5rem 0;
+                border-radius: 6px;
+                position: absolute;
+                top: 43%;
+                left: 50%;
+                transform: translateX(-48%);
+            }
+                h3 {
+                    margin: 0;
+                    font-size: 1.2rem;
+                }
+        }
+
+        .bottle-back {
+            transform: rotateY(180deg);
+
+            .label-box {
+                background: rgba(255, 255, 255, 0.8);
+                padding: 1rem;
+                border-radius: 8px;
+                max-width: 90%;
+                text-align: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+
+                h2 {
+                    margin: 0;
+                    font-size: 1.2rem;
+                    color: v.$dark-red
+                }
+            }
+        }
+    }
+}
+
+        

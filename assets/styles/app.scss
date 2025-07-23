@@ -19,8 +19,9 @@
 
 // IMPORT PAGES SCSS
 @use "pages/homepage";
-// @use "pages/galerie";
+@use "pages/cave_perso";
 @use "pages/bouteilles";
+@use "pages/caves";
 
 // IMPORT RESPONSIVE SCSS
 @use "base/responsive";
