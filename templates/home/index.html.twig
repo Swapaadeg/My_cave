@@ -69,9 +69,9 @@
                             <div class="bottle-face bottle-back">
                                 <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
                                 <div class="label-box">
-                                    <h2>{{ cave.nom }}</h2>
+                                    <h3>{{ cave.nom }}</h3>
                                         <p>{{ cave.description }}</p>
-                                        <p><strong>Créée par :</strong>{{ cave.cave.username }}</p>
+                                        <p><strong>Créée par : </strong>{{ cave.cave.username }}</p>
                                         <p><strong>Le :</strong> {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'Date inconnue' }}</p>
                                 </div>
                             </div>
@@ -79,7 +79,9 @@
                     </a>
                 {% endfor %}
             </div>
+            <div class="caves-gallery-footer">
+                <a href="{{ path('caves') }}" class="btn">Voir plus</a>
+            </div>
         </section>
     </main>
-
 {% endblock %}
