@@ -16,28 +16,41 @@ class BouteillesRepository extends ServiceEntityRepository
         parent::__construct($registry, Bouteilles::class);
     }
 
-//    /**
-//     * @return Bouteilles[] Returns an array of Bouteilles objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        public function getFilteredQueryBuilder(array $filters)
+    {
+        $qb = $this->createQueryBuilder('b');
 
-//    public function findOneBySomeField($value): ?Bouteilles
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($filters['nom'])) {
+            $qb->andWhere('LOWER(b.nom) LIKE :nom')
+            ->setParameter('nom', strtolower($filters['nom']) . '%');
+        }
+
+        if (!empty($filters['type'])) {
+            $qb->andWhere('b.type IN (:types)')
+            ->setParameter('types', $filters['type']);
+        }
+
+        if (!empty($filters['pays'])) {
+            $qb->andWhere('LOWER(b.pays) LIKE :pays')
+            ->setParameter('pays', strtolower($filters['pays']) . '%');
+        }
+
+        if (!empty($filters['region'])) {
+            $qb->andWhere('LOWER(b.region) LIKE :region')
+            ->setParameter('region', strtolower($filters['region']) . '%');
+        }
+
+        if (!empty($filters['cepage'])) {
+            $qb->andWhere('LOWER(b.cepage) LIKE :cepage')
+            ->setParameter('cepage', strtolower($filters['cepage']) . '%');
+        }
+
+        if (!empty($filters['millesime'])) {
+            $qb->andWhere('b.millesime = :millesime')
+            ->setParameter('millesime', $filters['millesime']);
+        }
+
+        return $qb;
+    }
+
 }

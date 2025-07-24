@@ -1,6 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
+<div class="bouteille-form-container">
+    <h1 class="mb-4">Formulaire de contact</h1>
+
+    {{ form_start(form, { attr: { class: 'form-grid' } }) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.message) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+</div>
+
+ {# MODALE FLASH #}
+        {% for label, messages in app.flashes %}
+            {% if label == 'success' %}
+                <div class="modale-flash" id="modale-flash">
+                    <div class="modale-content">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                        <button class="modale-close" onclick="fermerModale()">Fermer</button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
 {% endblock %}

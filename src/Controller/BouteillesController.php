@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\BouteillesFilterType;
 use App\Repository\BouteillesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,16 +15,24 @@ final class BouteillesController extends AbstractController
     #[Route('/bouteilles', name: 'bouteilles')]
     public function index(Request $request, PaginatorInterface $paginator, BouteillesRepository $vinRepository): Response
     {
-        $query = $vinRepository->createQueryBuilder('v')->getQuery();
+        // Création et traitement du formulaire de filtres
+        $form = $this->createForm(BouteillesFilterType::class);
+        $form->handleRequest($request);
+        $filters = $form->getData() ?? [];
 
+        // On récupère un QueryBuilder avec les filtres
+        $queryBuilder = $vinRepository->getFilteredQueryBuilder($filters);
+
+        // Pagination
         $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), // page actuelle, par défaut 1
-            20// nombre de bouteilles par page
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            20
         );
 
         return $this->render('bouteilles/bouteilles.html.twig', [
             'bouteilles' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 }

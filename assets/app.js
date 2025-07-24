@@ -5,6 +5,7 @@
  * which should already be in your base.html.twig.
  */
 import './styles/app.scss';
+import Choices from 'choices.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Fermer automatiquement après 3 secondes
+    // Fermer automatiquement après 2 secondes
     setTimeout(() => {
         fermerModale();
-    }, 3000);
+    }, 2000);

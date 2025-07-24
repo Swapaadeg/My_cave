@@ -6,12 +6,14 @@ footer {
     background-color: v.$dark-red;
     color: v.$cream;
     padding: 2rem 0;
+    
     .footer-container {
         width: 60%;
         margin: auto;
         padding-bottom: 2rem;
         border-bottom: solid 1px v.$cream;
     }
+    
     .logo-footer {
         display: flex;
         text-align: center;
@@ -39,7 +41,21 @@ footer {
         h4{
             text-align: center;
         }
+        a {
+            color: v.$cream;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
+}
+
+.abus {
+    font-family: v.$font-footer;
+    text-align: center;
+    padding-top: 0.5rem;
 }
 
 

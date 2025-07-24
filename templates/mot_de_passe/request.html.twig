@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+    <h2 class="mb-4">Mot de passe oublié</h2>
+    <section class="bouteille-form-container">
+
+
+        {# FORMULAIRE DE DEMANDE DE MDP #}
+        {{ form_start(requestForm, {'attr': {'class': 'form-grid'}}) }}
+            <div class="form-group full-width">
+                {{ form_label(requestForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(requestForm.email, {'attr': {'class': 'form-input'}}) }}
+                {{ form_errors(requestForm.email) }}
+            </div>
+
+            <div class="form-actions full-width">
+                <button type="submit" class="btn">Envoyer le lien de réinitialisation</button>
+            </div>
+        {{ form_end(requestForm) }}
+    </section>
+{% endblock %}

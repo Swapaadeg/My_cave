@@ -1,29 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    <section class="bouteille-form-container">
+        <h1>Connexion</h1>
+
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+                    <label for="username">Email</label>
+                    <input
+                        type="email"
+                        value="{{ last_username }}"
+                        name="_username"
+                        id="username"
+                        required
+                        autofocus
+                        autocomplete="email"
+                        class="form-input"
+                        placeholder="ex: vous@mycave.com"
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="password">Mot de passe</label>
+                    <input
+                        type="password"
+                        name="_password"
+                        id="password"
+                        required
+                        autocomplete="current-password"
+                        class="form-input"
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Se souvenir de moi</label>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn" type="submit">Se connecter</button>
+                <a class = "mdp" href="{{ path('request') }}">Mot de passe oublié?</a>
+            </div>
+        </form>
+    </section>
+
+    {# MODALE FLASH #}
+    {% for label, messages in app.flashes %}
+        {% if label == 'success' %}
+            <div class="modale-flash" id="modale-flash">
+                <div class="modale-content">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                    <button class="modale-close" onclick="fermerModale()">Fermer</button>
+                </div>
+            </div>
         {% endif %}
-
-
-        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-
-        <div class="checkbox mb-3">
-            <input type="checkbox" name="_remember_me" id="_remember_me">
-            <label for="_remember_me">Remember me</label>
-        </div>
-       
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+    {% endfor %}
 {% endblock %}

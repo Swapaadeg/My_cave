@@ -3,15 +3,41 @@
 {% block title %}Créer ma cave{% endblock %}
 
 {% block body %}
-<section class="container">
+<section class="bouteille-form-container">
     <h1>Créer votre cave</h1>
     <p>Vous n'avez pas encore de cave. Remplissez ce formulaire pour en créer une.</p>
 
     {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.imageFile) }}
-        <button type="submit" class="btn">Créer</button>
+
+        <div class="form-grid">
+            <div class="form-group full-width">
+                {{ form_row(form.nom, {
+                    'label': 'Nom de votre cave',
+                    'label_attr': {'class': 'form-label'},
+                    'attr': {'placeholder': 'ex : Château Patate', 'class': 'form-input'}
+                }) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.description, {
+                    'label': 'Description',
+                    'label_attr': {'class': 'form-label'},
+                    'attr': {'placeholder': 'Un petit coin pour mes bouteilles favorites', 'class': 'form-input'}
+                }) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.imageFile, {
+                    'label': 'Image de la cave',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Créer</button>
+        </div>
+
     {{ form_end(form) }}
 </section>
 {% endblock %}
