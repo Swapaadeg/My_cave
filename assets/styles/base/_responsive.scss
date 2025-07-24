@@ -1,6 +1,12 @@
 @use '../abstracts/variables' as v;
 
+//RESPONSIVE 900
 @media screen and (max-width: 900px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    //NAVBAR
     .navbar {
         flex-direction: column;
         align-items: flex-start;
@@ -11,34 +17,33 @@
         margin-left: auto;
         }
 
-        .bottle-nav,
-        .auth-nav {
-        display: none;
-        width: 100%;
-        margin-top: 1rem;
-        flex-direction: column;
-        align-items: flex-start;
-
-        li {
-            position: static;
-            margin: 0.5rem 1rem;
+        .bottle-nav,.auth-nav {
+            display: none;
             width: 100%;
+            margin-top: 1rem;
+            flex-direction: column;
+            align-items: flex-start;
 
-            a {
-            display: block;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            background-color: v.$cream;
-            color: v.$dark-red;
-            text-decoration: none;
-            font-weight: bold;
+            li {
+                position: static;
+                margin: 0.5rem 1rem;
+                width: 100%;
 
-            &:hover {
-                background-color: v.$dark-red;
-                color: v.$cream;
+                a {
+                display: block;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                background-color: v.$cream;
+                color: v.$dark-red;
+                text-decoration: none;
+                font-weight: bold;
+
+                    &:hover {
+                        background-color: v.$dark-red;
+                        color: v.$cream;
+                    }
+                }
             }
-            }
-        }
         }
 
         &.open {
@@ -48,9 +53,8 @@
         }
         }
 
-        // On désactive le style bouteille
         .bottle-link {
-            all: unset!important; 
+            all: unset;
             display: block;
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -65,16 +69,61 @@
             }
         }
     }
-}
 
-
-// Responsive
-@media screen and (max-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-
-    .full-width {
-      grid-column: span 1;
+    .bouteilles-wrapper .bouteilles-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
 }
+
+
+
+
+// Responsive 768
+@media screen and (max-width: 768px) {
+
+    //HOMEPAGE
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        .full-width {
+        grid-column: span 1;
+        }
+    }
+
+    .presentation__wrapper {
+        .presentation {
+            flex-direction: column;
+            width: 100%;
+            margin-top: 2rem;
+            gap: 2rem;
+            align-items: center;
+        
+            .img {
+            width: 100%;
+            height: 250px;
+            }
+        
+            .texte {
+                width: 90%;
+                text-align: center;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            
+                p {
+                    text-align: justify;
+                }
+            
+                .btn {
+                    margin-top: 1rem;
+                    align-self: center;
+                }
+            }
+        }
+    }
+
+    .bouteilles-wrapper .bouteilles-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

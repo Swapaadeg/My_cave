@@ -7,7 +7,10 @@
     justify-content: space-between;
     padding: 1rem 6rem;
     position: relative;
-
+    box-shadow:
+        inset 0 8px 16px -8px v.$dark-red,
+        inset 0 -8px 16px -8px v.$dark-red;
+        
     .logo img {
         height: 60px;
     }
@@ -90,16 +93,20 @@
                 font-family: v.$font-semi-bold;
                 transition: color 0.2s;
                 letter-spacing: 5px;
-
                 &:hover {
                     color: v.$plum;
                 }
             }
-            &.separator {
+            &.separator-li {
                 width: 50%;
                 border-top: 1px solid v.$dark-red;
                 margin: 0.3rem 0;
                 align-self: center;
+            }
+            &.greeting {
+                color: v.$dark-red;
+                font-family: v.$font-semi-bold;
+                letter-spacing: 5px;
             }
         }
     }

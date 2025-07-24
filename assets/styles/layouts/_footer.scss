@@ -1,0 +1,46 @@
+@use '../abstracts/variables' as v;
+
+footer {
+    margin-top: 6rem;
+    text-align: center;
+    background-color: v.$dark-red;
+    color: v.$cream;
+    padding: 2rem 0;
+    .footer-container {
+        width: 60%;
+        margin: auto;
+        padding-bottom: 2rem;
+        border-bottom: solid 1px v.$cream;
+    }
+    .logo-footer {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        img {
+            width: 100%;
+        }
+        .separator-footer {
+            width: 100%;
+            border-top: 1px solid v.$cream;
+            margin: 0;
+        }
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 0 10%;
+
+        h4{
+            text-align: center;
+        }
+    }
+}
+
+
+

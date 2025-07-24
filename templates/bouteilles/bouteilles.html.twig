@@ -1,7 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BouteillesController!{% endblock %}
+{% block title %}Nos bouteilles{% endblock %}
 
 {% block body %}
+<section class="bouteilles-wrapper container">
+    <h1>Nos bouteilles</h1>
+
+    {% if bouteilles|length == 0 %}
+        <p>Aucune bouteille enregistrée pour le moment.</p>
+    {% else %}
+        <div class="bouteilles-grid">
+            {% for bouteille in bouteilles %}
+                {% if bouteille.imageName %}
+                    {% set image = 'uploads/images/' ~ bouteille.imageName %}
+                {% else %}
+                    {% set defaultImage =
+                        bouteille.type == 'rouge'
+                            ? 'vin-rouge.jpg'
+                            : (bouteille.type == 'blanc' ? 'vin-blanc.jpg' : 'vin-rose.jpg') %}
+                    {% set image = 'uploads/images/' ~ defaultImage %}
+                {% endif %}
+
+                <div class="bouteille-card">
+                    <div class="card-inner">
+                        <div class="image-wrapper">
+                            <img src="{{ asset(image) }}" alt="{{ bouteille.nom }}">
+                        </div>
+
+                        <div class="infos">
+                            <h2>{{ bouteille.nom }}</h2>
+                            <div class="details">
+                                <p><strong>Millésime :</strong> {{ bouteille.millesime }}</p>
+                                <p><strong>Cépage :</strong> {{ bouteille.cepage }}</p>
+                                <p><strong>Type :</strong> {{ bouteille.type }}</p>
+                                <p><strong>Pays :</strong> {{ bouteille.pays }}</p>
+                                <p><strong>Région :</strong> {{ bouteille.region }}</p>
+                                <p class="description">{{ bouteille.description }}</p>
+                                <form method="POST" action="{{ path('cave-add-bouteilles', { id: bouteille.id }) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
+                                    <button type="submit" class="btn">Ajouter à ma cave</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {# MODALE FLASH  #}
+    {% for label, messages in app.flashes %}
+        {% if label == 'success' %}
+            <div class="modale-flash" id="modale-flash">
+                <div class="modale-content">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                    <button class="modale-close" onclick="fermerModale()">Fermer</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    {# PAGINATION #}
+    <div class="pagination">
+        <ul>
+            {# Page précédente #}
+            {% if bouteilles.paginationData.previous is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.previous})) }}">
+                        &laquo;
+                    </a>
+                </li>
+            {% endif %}
+
+            {# Affiche les pages 1 à total #}
+            {% for i in 1..bouteilles.paginationData.pageCount %}
+                <li class="{{ i == bouteilles.paginationData.current ? 'current' : '' }}">
+                    {% if i == bouteilles.paginationData.current %}
+                        <span>{{ i }}</span>
+                    {% else %}
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            {# Page suivante #}
+            {% if bouteilles.paginationData.next is defined %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.next})) }}">
+                        &raquo;
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+</section>
 
 {% endblock %}

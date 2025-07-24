@@ -3,7 +3,85 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<a href="{{ path('add_bouteilles') }}">Ajouter une bouteille</a></li>
-<a href="{{ path('add_caves') }}">Créer ma cave</a></li>
+    <main>
+        <section class="banner">
+            <div class="image-wrapper">
+                <img src="{{ asset('banner.jpg') }}" alt="Image d'une vigne avec un coucher de soleil">
+            </div>
+        </section>
 
+        <section class="presentation__wrapper container">
+            <h1>MY CAVE</h1>
+            <div class="presentation">
+                <div class="img">
+                    <img src="{{ asset('cave-voute.jpg') }}" alt="Entrée de cave voûtée avec bouteilles entreposées">
+                </div>
+                <div class="texte">
+                    <p><span>My Cave</span>, c'est la mémoire liquide des instants précieux. Une cave élégante, vivante, personnelle — pensée pour les amateurs éclairés, les passionnés discrets, les conteurs de vin. Ici, chaque bouteille a une histoire. Et chaque histoire mérite sa place.</p>
+                    <p>Chez <span>My Cave</span>, nous croyons que le vin ne se résume pas à une étiquette ou un prix. C’est un souvenir de table partagée, un voyage sensoriel, une promesse d’émotion à chaque ouverture.
+                    Notre plateforme vous permet de conserver vos trésors, de suivre leur évolution, de raconter votre collection comme on écrit un carnet de voyage.</p>
+                    <a href="{{ path('bouteilles') }}" class="btn">Voir nos bouteilles</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="site-counters container">
+            <div class="counter">
+                
+                <img src="{{ asset('etagere.svg') }}" alt="Logo de bouteilles">
+                <span class="counter-value">{{ bouteillesCount }}</span>
+                <span class="counter-label">Bouteilles</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('tonneau-de-vin.svg') }}" alt="Logo de tonneau">
+                <span class="counter-value">{{ cavesCount }}</span>
+                <span class="counter-label">Caves</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('agriculture.svg') }}" alt="Logo d'un agriculteur">
+                <span class="counter-value">{{ usersCount }}</span>
+                <span class="counter-label">Personnes inscrites</span>
+            </div>
+            <div class="counter">
+                <img src="{{ asset('raisins.svg') }}" alt="Logo de grappe de raisin">
+                <span class="counter-value">{{ cepagesCount }}</span>
+                <span class="counter-label">Cépages</span>
+            </div>
+        </section>
+        <span class="separator"></span>
+
+        <section class="latest-caves container">
+            <div class="latest_caves_t">
+                <h2>Les Caves</h2>
+            </div>
+            <div class="caves-gallery">
+                {% for cave in latestCaves %}
+                    <a href="{{ path('cave_perso', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
+                        <div class="bottle-inner">
+                            <!-- FACE AVANT -->
+                            <div class="bottle-face bottle-front">
+                                <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                                <div class="label-box">
+                                    <h3>{{ cave.nom|upper }}</h3>
+                                </div>
+                            </div>
+                            <!-- FACE ARRIÈRE -->
+                            <div class="bottle-face bottle-back">
+                                <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                                <div class="label-box">
+                                    <h3>{{ cave.nom }}</h3>
+                                        <p>{{ cave.description }}</p>
+                                        <p><strong>Créée par : </strong>{{ cave.cave.username }}</p>
+                                        <p><strong>Le :</strong> {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'Date inconnue' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="caves-gallery-footer">
+                <a href="{{ path('caves') }}" class="btn">Voir plus</a>
+            </div>
+        </section>
+    </main>
 {% endblock %}

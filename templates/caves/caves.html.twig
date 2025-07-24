@@ -1,7 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CavesController!{% endblock %}
+{% block title %}Les caves du Royaume{% endblock %}
 
 {% block body %}
-
+    <section class="caves-gallery">
+        {% for cave in caves %}
+            <a href="{{ path('cave_perso', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
+                <div class="bottle-inner">
+                    <!-- FACE AVANT -->
+                    <div class="bottle-face bottle-front">
+                        <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                        <div class="label-box">
+                            <h3>{{ cave.nom|upper }}</h3>
+                        </div>
+                    </div>
+                    <!-- FACE ARRIÈRE -->
+                    <div class="bottle-face bottle-back">
+                        <img src="{{ asset('chouette.png') }}" alt="{{ cave.nom }}">
+                        <div class="label-box">
+                            <h2>{{ cave.nom }}</h2>
+                                <p>{{ cave.description }}</p>
+                                <p><strong>Créée par :</strong>{{ cave.cave.username }}</p>
+                                <p><strong>Le :</strong> {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'Date inconnue' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </section>
 {% endblock %}

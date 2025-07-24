@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: CavesRepository::class)]
 class Caves
 {
@@ -28,7 +29,7 @@ class Caves
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'caves')]
-    private ?user $cave = null;
+    private ?User $cave = null;
 
     /**
      * @var Collection<int, NotesCaves>
@@ -205,10 +206,6 @@ class Caves
     }
 
         //IMAGES
-    public function getImageFile(): ?File {
-
-    return $this->imageFile;
-    }
 
     public function setImageName(?string $imageName): void {
         $this->imageName = $imageName;
@@ -226,5 +223,19 @@ class Caves
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 }

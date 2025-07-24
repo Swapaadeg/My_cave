@@ -25,7 +25,7 @@ final class AddBouteillesController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Bouteille ajoutée avec succès !');
-            return $this->redirectToRoute('add_bouteilles');
+            return $this->redirectToRoute('bouteilles');
         }
 
         return $this->render('add_bouteilles/add_bouteilles.html.twig', [

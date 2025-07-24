@@ -16,7 +16,7 @@
         <header>
             <nav class="navbar">
                 <div class="logo">
-                    <a href=""><img src="{{ asset('logo.png') }}" alt="myCAVE"></a>
+                    <a href="{{ path('home') }}"><img src="{{ asset('logo.png') }}" alt="myCAVE"></a>
                 </div>
 
                 <button class="burger" aria-label="Menu">
@@ -27,8 +27,8 @@
 
                 <ul class="bottle-nav">
                     <li><a href="{{ path('home') }}" class="bottle-link">Accueil</a></li>
-                    <li><a href="{{ path('caves') }}" class="bottle-link">    Toutes<br>les<br>caves</a></li>
-                    <li><a href="{{ path('caves') }}" class="bottle-link">Ma cave</a></li>
+                    <li><a href="{{ path('caves') }}" class="bottle-link">Toutes<br>les<br>caves</a></li>
+                    <li><a href="{{ path('cave_perso') }}" class="bottle-link">Ma cave</a></li>
                     <li><a href="{{ path('bouteilles') }}" class="bottle-link">Nos bouteilles</a></li>
                     <li><a href="{{ path('contact') }}" class="bottle-link">Contact</a></li>
                 </ul>
@@ -36,9 +36,12 @@
                 <ul class="auth-nav">
                     {% if not is_granted('ROLE_USER') %}
                         <li><a href="{{ path('login') }}">Connexion</a></li>
-                        <li class="separator"></li>
+                        <li class="separator-li"></li>
                         <li><a href="{{ path('inscription') }}">Inscription</a></li>
                     {% else %}
+                        {% if app.user %}
+                            <li class="greeting">Bonjour {{ app.user.username }}!</li>
+                        {% endif %}
                         <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
                     {% endif %}
                 </ul>
@@ -49,13 +52,41 @@
         {% block body %}{% endblock %}
         </main>
 
+
+
         <footer>
-        <a href="https://www.flaticon.com/fr/icones-gratuites/du-vin" title="du vin icônes">Du vin icônes créées par Freepik - Flaticon</a>
+            <div class="footer-container">
+                <div class="logo-footer">
+                    <span class="separator-footer"></span>
+                    <a href="{{ path('home') }}"><img src="{{ asset('logo-blanc.png') }}" alt="Logo My Cave"></a>
+                    <span class="separator-footer"></span>
+                </div>
+                <div class="footer-content">
+                    <div class="footer-contact">
+                        <h4>Contact</h4>
+                        <p>03-77-89-00-00</p>
+                        <p>Domaine Pétrus</p>
+                        <p>33500 Pomerol</p>
+                        <a href="{{ path('contact') }}">Formulaire de contact</a>
+                    </div>
+                    <div class="footer-propos">
+                        <h4>À propos</h4>
+                        <ul>
+                            <li><a href="">Politique de Confidentialité</a></li>
+                            <li><a href="">Mentions Légales</a></li>
+                            <li><a href="">Conditions Générales d'Utilisation</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <span class="separator-big-footer"></span>
+            <p>Copyright&copyMy Cave - 2025 </p>
         </footer>
 
+        <a href="https://www.flaticon.com/fr/icones-gratuites/du-vin" title="du vin icônes">Du vin icônes créées par Freepik - Flaticon</a>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </body>
 </html>
