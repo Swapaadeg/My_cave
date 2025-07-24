@@ -88,5 +88,9 @@
             {{ encore_entry_script_tags('app') }}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+        <div class="decor-fixed">
+            <img src="{{ asset('left.png') }}" alt="Décor gauche" class="decor decor-left">
+            <img src="{{ asset('right.png') }}" alt="Décor droite" class="decor decor-right">
+        </div>
     </body>
 </html>

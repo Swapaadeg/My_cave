@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Caves;
 use App\Form\AddCavesType;
+use App\Entity\CommentairesCaves;
+use App\Form\CommentairesCavesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,11 +46,26 @@ final class CavePersoController extends AbstractController
                 'form' => $form->createView(),
             ]);
         }
-        
-        dump($cave);
+        // Nouveau commentaire
+        $commentaire = new CommentairesCaves();
+        $commentaire->setUser($user);
+        $commentaire->setCave($cave);
+        $commentaire->setCreatedAt(new \DateTimeImmutable());
+
+        $formCommentaire = $this->createForm(CommentairesCavesType::class, $commentaire);
+        $formCommentaire->handleRequest($request);
+
+        if ($formCommentaire->isSubmitted() && $formCommentaire->isValid()) {
+            $em->persist($commentaire);
+            $em->flush();
+
+            $this->addFlash('success', 'Commentaire ajouté.');
+            return $this->redirectToRoute('cave_perso');
+        }
         return $this->render('cave_perso/cave_perso.html.twig', [
             'cave' => $cave,
             'bouteilles' => $cave->getCavesBouteilles(),
+            'form_commentaire' => $formCommentaire->createView(),
         ]);
     }
 

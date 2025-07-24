@@ -40,28 +40,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $caves;
 
     /**
-     * @var Collection<int, NotesCaves>
-     */
-    #[ORM\OneToMany(targetEntity: NotesCaves::class, mappedBy: 'user')]
-    private Collection $notesCaves;
-
-    /**
-     * @var Collection<int, NotesBouteilles>
-     */
-    #[ORM\OneToMany(targetEntity: NotesBouteilles::class, mappedBy: 'user')]
-    private Collection $notesBouteilles;
-
-    /**
      * @var Collection<int, CommentairesCaves>
      */
     #[ORM\OneToMany(targetEntity: CommentairesCaves::class, mappedBy: 'User')]
     private Collection $commentairesCaves;
 
-    /**
-     * @var Collection<int, CommentairesBouteilles>
-     */
-    #[ORM\OneToMany(targetEntity: CommentairesBouteilles::class, mappedBy: 'user')]
-    private Collection $commentairesBouteilles;
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
@@ -81,10 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->caves = new ArrayCollection();
-        $this->notesCaves = new ArrayCollection();
-        $this->notesBouteilles = new ArrayCollection();
         $this->commentairesCaves = new ArrayCollection();
-        $this->commentairesBouteilles = new ArrayCollection();
         $this->bouteilles = new ArrayCollection();
     }
 
@@ -188,65 +168,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, NotesCaves>
-     */
-    public function getNotesCaves(): Collection
-    {
-        return $this->notesCaves;
-    }
-
-    public function addNotesCave(NotesCaves $notesCave): static
-    {
-        if (!$this->notesCaves->contains($notesCave)) {
-            $this->notesCaves->add($notesCave);
-            $notesCave->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNotesCave(NotesCaves $notesCave): static
-    {
-        if ($this->notesCaves->removeElement($notesCave)) {
-            // set the owning side to null (unless already changed)
-            if ($notesCave->getUser() === $this) {
-                $notesCave->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, NotesBouteilles>
-     */
-    public function getNotesBouteilles(): Collection
-    {
-        return $this->notesBouteilles;
-    }
-
-    public function addNotesBouteille(NotesBouteilles $notesBouteille): static
-    {
-        if (!$this->notesBouteilles->contains($notesBouteille)) {
-            $this->notesBouteilles->add($notesBouteille);
-            $notesBouteille->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNotesBouteille(NotesBouteilles $notesBouteille): static
-    {
-        if ($this->notesBouteilles->removeElement($notesBouteille)) {
-            // set the owning side to null (unless already changed)
-            if ($notesBouteille->getUser() === $this) {
-                $notesBouteille->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, CommentairesCaves>
@@ -272,36 +193,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commentairesCave->getUser() === $this) {
                 $commentairesCave->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CommentairesBouteilles>
-     */
-    public function getCommentairesBouteilles(): Collection
-    {
-        return $this->commentairesBouteilles;
-    }
-
-    public function addCommentairesBouteille(CommentairesBouteilles $commentairesBouteille): static
-    {
-        if (!$this->commentairesBouteilles->contains($commentairesBouteille)) {
-            $this->commentairesBouteilles->add($commentairesBouteille);
-            $commentairesBouteille->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentairesBouteille(CommentairesBouteilles $commentairesBouteille): static
-    {
-        if ($this->commentairesBouteilles->removeElement($commentairesBouteille)) {
-            // set the owning side to null (unless already changed)
-            if ($commentairesBouteille->getUser() === $this) {
-                $commentairesBouteille->setUser(null);
             }
         }
 

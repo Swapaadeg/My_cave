@@ -32,7 +32,9 @@
             </div>
         {{ form_end(form) }}
 
-
+        <div class="ajouter-wrapper">
+            <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
+        </div>
         {# AFFICHAGE DES BOUTEILLES #}
         {% if bouteilles|length == 0 %}
             <p>Aucune bouteille enregistrée pour le moment.</p>
@@ -90,6 +92,9 @@
             {% endif %}
         {% endfor %}
 
+        <div class="ajouter-wrapper">
+            <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
+        </div>
         {# PAGINATION #}
         <div class="pagination">
             <ul>

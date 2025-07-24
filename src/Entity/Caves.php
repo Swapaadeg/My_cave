@@ -31,11 +31,6 @@ class Caves
     #[ORM\ManyToOne(inversedBy: 'caves')]
     private ?User $cave = null;
 
-    /**
-     * @var Collection<int, NotesCaves>
-     */
-    #[ORM\OneToMany(targetEntity: NotesCaves::class, mappedBy: 'cave')]
-    private Collection $notesCaves;
 
     /**
      * @var Collection<int, CommentairesCaves>
@@ -59,9 +54,10 @@ class Caves
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
+
+
     public function __construct()
     {
-        $this->notesCaves = new ArrayCollection();
         $this->commentairesCaves = new ArrayCollection();
         $this->caves_bouteilles = new ArrayCollection();
     }
@@ -117,36 +113,6 @@ class Caves
     public function setCave(?user $cave): static
     {
         $this->cave = $cave;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, NotesCaves>
-     */
-    public function getNotesCaves(): Collection
-    {
-        return $this->notesCaves;
-    }
-
-    public function addNotesCave(NotesCaves $notesCave): static
-    {
-        if (!$this->notesCaves->contains($notesCave)) {
-            $this->notesCaves->add($notesCave);
-            $notesCave->setCave($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNotesCave(NotesCaves $notesCave): static
-    {
-        if ($this->notesCaves->removeElement($notesCave)) {
-            // set the owning side to null (unless already changed)
-            if ($notesCave->getCave() === $this) {
-                $notesCave->setCave(null);
-            }
-        }
 
         return $this;
     }

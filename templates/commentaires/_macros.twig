@@ -1,0 +1,14 @@
+{% macro afficher_commentaire(commentaire) %}
+    <div class="commentaire">
+        <p><strong>{{ commentaire.user.username }}</strong> ({{ commentaire.createdAt|date('d/m/Y H:i') }})</p>
+        <p>{{ commentaire.commentaire }}</p>
+
+        {# Bouton répondre #}
+        <a href="{{ path('cave_perso', { id: commentaire.cave.id, parentId: commentaire.id }) }}">Répondre</a>
+
+        {# Affichage des réponses #}
+        {% for reponse in commentaire.commentaires %}
+            {{ _self.afficher_commentaire(reponse) }}
+        {% endfor %}
+    </div>
+{% endmacro %}

@@ -208,4 +208,19 @@
 
 
 
+//COMMENTAIRES
+.formulaire-commentaire {
+    margin-bottom: 2rem;
 
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .btn {
+        margin-top: 1rem;
+    }
+}

@@ -51,7 +51,27 @@
                 {% endfor %}
             </div>
         {% endif %}
+        <section class = "commentaires container">
+            {# Import des coms depuis le _macros  #}
+            {% import 'commentaires/_macros.twig' as macros %}
 
+            <div class="commentaires">
+                <h2>Commentaires</h2>
+                <div class="formulaire-commentaire">
+                    {% for commentaire in cave.commentairesCaves %}
+                        {% if commentaire.reponse is null %}
+                            {{ macros.afficher_commentaire(commentaire) }}
+                        {% endif %}
+                    {% endfor %}
+                    <h3>Ajouter un commentaire</h3>
+                    {{ form_start(form_commentaire) }}
+                        {{ form_row(form_commentaire.commentaire) }}
+                        <button type="submit" class="btn">Envoyer</button>
+                    {{ form_end(form_commentaire) }}
+                </div>
+
+            </div>
+        </section>
         {# MODALE FLASH  #}
         {% for label, messages in app.flashes %}
             {% if label == 'success' %}

@@ -34,3 +34,25 @@ h3 {
     color: v.$dark-red
 }
 
+.decor-fixed {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+
+    .decor {
+        position: absolute;
+        max-height: 80vh;
+
+        &.decor-left {
+            left: 0;
+        }
+
+        &.decor-right {
+            right: 0;
+        }
+    }
+}

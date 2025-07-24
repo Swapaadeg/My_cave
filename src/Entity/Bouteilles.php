@@ -47,12 +47,6 @@ class Bouteilles
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: NotesBouteilles::class, mappedBy: 'bouteille')]
-    private Collection $notesBouteilles;
-
-    #[ORM\OneToMany(targetEntity: CommentairesBouteilles::class, mappedBy: 'bouteille')]
-    private Collection $commentairesBouteilles;
-
     #[ORM\ManyToMany(targetEntity: Caves::class, mappedBy: 'caves_bouteilles')]
     private Collection $bouteilles_caves;
 
@@ -68,10 +62,9 @@ class Bouteilles
     #[ORM\ManyToOne(inversedBy: 'bouteilles')]
     private ?User $user = null;
 
+
     public function __construct()
     {
-        $this->notesBouteilles = new ArrayCollection();
-        $this->commentairesBouteilles = new ArrayCollection();
         $this->bouteilles_caves = new ArrayCollection();
     }
 
@@ -165,65 +158,7 @@ class Bouteilles
         return $this;
     }
 
-    /**
-     * @return Collection<int, NotesBouteilles>
-     */
-    public function getNotesBouteilles(): Collection
-    {
-        return $this->notesBouteilles;
-    }
 
-    public function addNotesBouteille(NotesBouteilles $notesBouteille): static
-    {
-        if (!$this->notesBouteilles->contains($notesBouteille)) {
-            $this->notesBouteilles->add($notesBouteille);
-            $notesBouteille->setBouteille($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNotesBouteille(NotesBouteilles $notesBouteille): static
-    {
-        if ($this->notesBouteilles->removeElement($notesBouteille)) {
-            // set the owning side to null (unless already changed)
-            if ($notesBouteille->getBouteille() === $this) {
-                $notesBouteille->setBouteille(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CommentairesBouteilles>
-     */
-    public function getCommentairesBouteilles(): Collection
-    {
-        return $this->commentairesBouteilles;
-    }
-
-    public function addCommentairesBouteille(CommentairesBouteilles $commentairesBouteille): static
-    {
-        if (!$this->commentairesBouteilles->contains($commentairesBouteille)) {
-            $this->commentairesBouteilles->add($commentairesBouteille);
-            $commentairesBouteille->setBouteille($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentairesBouteille(CommentairesBouteilles $commentairesBouteille): static
-    {
-        if ($this->commentairesBouteilles->removeElement($commentairesBouteille)) {
-            // set the owning side to null (unless already changed)
-            if ($commentairesBouteille->getBouteille() === $this) {
-                $commentairesBouteille->setBouteille(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Caves>
@@ -297,4 +232,5 @@ class Bouteilles
 
         return $this;
     }
+
 }
