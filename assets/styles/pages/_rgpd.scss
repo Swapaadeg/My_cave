@@ -1,0 +1,12 @@
+@use '../abstracts/variables' as v;
+
+.rgpd-section {
+    padding: 3rem;
+    h3 {
+        margin-top: 2rem;
+    }
+
+    a {
+        color: v.$wine-red;
+    }
+}
