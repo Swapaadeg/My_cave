@@ -97,9 +97,11 @@
             {% endif %}
         {% endfor %}
 
-        <div class="ajouter-wrapper">
-            <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
-        </div>
+        {% if app.user %}
+            <div class="ajouter-wrapper">
+                <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
+            </div>
+        {% endif %}
         {# PAGINATION #}
         <div class="pagination">
             <ul>
