@@ -31,9 +31,11 @@ h1, h2 {
 }
 
 h3 {
-    color: v.$dark-red
+    color: v.$dark-red;
+    font-size: 1.5rem;
 }
 
+//FEUILLES IMAGE SUR LES COTES
 .decor-fixed {
     position: fixed;
     top: 50%;

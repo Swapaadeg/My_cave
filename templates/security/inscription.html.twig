@@ -7,8 +7,12 @@
         <h2> S'inscrire</h2>
 
         {{ form_start(userForm) }}
-
-            <div class="form-grid">
+            {% for error in userForm.vars.errors %}
+                <div class="form-error">
+                    {{ error.message }}
+                </div>
+            {% endfor %}
+                <div class="form-grid">
                 <div class="form-group">
                     {{ form_row(userForm.email, {
                         'label': 'Adresse email',

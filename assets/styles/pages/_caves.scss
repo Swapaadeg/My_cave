@@ -1,5 +1,7 @@
 @use '../abstracts/variables' as v;
 
+
+//Affichage des bouteilles de la cave
 .caves-gallery {
     width: 90%;
     margin: 4rem auto;
@@ -13,6 +15,7 @@
     border-radius: 30px;
     box-shadow: 0 0 20px rgba(0,0,0,0.08);
     overflow: hidden;
+
 
     .bottle-container {
         width: 100%;
@@ -91,3 +94,4 @@
         }
     }
 }
+

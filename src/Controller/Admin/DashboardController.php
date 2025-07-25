@@ -6,14 +6,14 @@ use App\Entity\User;
 use App\Entity\Caves;
 use App\Entity\Bouteilles;
 use App\Entity\CommentairesCaves;
-use App\Entity\CommentairesBouteilles;
 use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+#[IsGranted('ROLE_ADMIN')]
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
@@ -53,7 +53,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Bouteilles', 'fas fa-list', Bouteilles::class);
         yield MenuItem::linkToCrud('Caves', 'fas fa-list', Caves::class);
-        yield MenuItem::linkToCrud('Commentaires des Bouteilles', 'fas fa-list', CommentairesBouteilles::class);
         yield MenuItem::linkToCrud('Commentaires des Caves', 'fas fa-list', CommentairesCaves::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
     }

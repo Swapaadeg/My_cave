@@ -11,26 +11,21 @@
 
         <div class="form-grid">
             <div class="form-group full-width">
-                {{ form_row(form.nom, {
-                    'label': 'Nom de votre cave',
-                    'label_attr': {'class': 'form-label'},
-                    'attr': {'placeholder': 'ex : Château Patate', 'class': 'form-input'}
-                }) }}
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom) }}
+                {{ form_errors(form.nom) }}
             </div>
 
             <div class="form-group full-width">
-                {{ form_row(form.description, {
-                    'label': 'Description',
-                    'label_attr': {'class': 'form-label'},
-                    'attr': {'placeholder': 'Un petit coin pour mes bouteilles favorites', 'class': 'form-input'}
-                }) }}
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
             </div>
 
             <div class="form-group full-width">
-                {{ form_row(form.imageFile, {
-                    'label': 'Image de la cave',
-                    'label_attr': {'class': 'form-label'}
-                }) }}
+                {{ form_label(form.imageFile) }}
+                {{ form_widget(form.imageFile) }}
+                {{ form_errors(form.imageFile) }}
             </div>
         </div>
 

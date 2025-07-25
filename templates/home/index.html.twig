@@ -56,7 +56,7 @@
             </div>
             <div class="caves-gallery">
                 {% for cave in latestCaves %}
-                    <a href="{{ path('cave_perso', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
+                    <a href="{{ path('cave_afficher', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
                         <div class="bottle-inner">
                             <!-- FACE AVANT -->
                             <div class="bottle-face bottle-front">
@@ -79,6 +79,19 @@
                     </a>
                 {% endfor %}
             </div>
+            {# FLASH MESSAGE #}
+            {% for label, messages in app.flashes %}
+                {% if label == 'success' %}
+                    <div class="modale-flash" id="modale-flash">
+                        <div class="modale-content">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                            <button class="modale-close" onclick="fermerModale()">Fermer</button>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
             <div class="caves-gallery-footer">
                 <a href="{{ path('caves') }}" class="btn">Voir plus</a>
             </div>

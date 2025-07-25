@@ -1,14 +1,26 @@
-{% macro afficher_commentaire(commentaire) %}
-    <div class="commentaire">
-        <p><strong>{{ commentaire.user.username }}</strong> ({{ commentaire.createdAt|date('d/m/Y H:i') }})</p>
-        <p>{{ commentaire.commentaire }}</p>
+{% macro afficher_commentaire(commentaire, caveId, app) %}
+    {% if commentaire.cave.id == caveId %}
+        <div class="commentaire">
+            <p><strong>{{ commentaire.user ? commentaire.user.username : 'Utilisateur inconnu' }}</strong>
+             le {{ commentaire.createdAt|date('d/m/Y à H:i') }}</p>
+            <p>{{ commentaire.commentaire }}</p>
 
-        {# Bouton répondre #}
-        <a href="{{ path('cave_perso', { id: commentaire.cave.id, parentId: commentaire.id }) }}">Répondre</a>
+            <div class="comment-actions">
+                <button class="btn btn-sm" onclick="ouvrirModal({{ caveId }}, {{ commentaire.id }})">Répondre</button>
 
-        {# Affichage des réponses #}
-        {% for reponse in commentaire.commentaires %}
-            {{ _self.afficher_commentaire(reponse) }}
-        {% endfor %}
-    </div>
+                {# Bouton supprimer visible uniquement si l'utilisateur est l'auteur #}
+                {% if commentaire.user and app.user and app.user.id == commentaire.user.id %}
+                    <form action="{{ path('supprimer_commentaire', { id: commentaire.id }) }}" method="post" style="display:inline;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ commentaire.id) }}">
+                        <button type="submit" class="btn btn-sm danger">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            {# Réponses #}
+            {% for reponse in commentaire.commentaires %}
+                {{ _self.afficher_commentaire(reponse, caveId, app) }}
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endmacro %}

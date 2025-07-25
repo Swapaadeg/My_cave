@@ -1,7 +1,7 @@
 @use '../abstracts/variables' as v;
 
-//RESPONSIVE 900
-@media screen and (max-width: 900px) {
+//RESPONSIVE 1040
+@media screen and (max-width: 1040px) {
     .container {
         padding: 0 2rem;
     }
@@ -9,12 +9,12 @@
     //NAVBAR
     .navbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
+        text-align: center;
 
         .burger {
         display: flex;
-        margin-left: auto;
         }
 
         .bottle-nav,.auth-nav {
@@ -43,6 +43,12 @@
                         color: v.$cream;
                     }
                 }
+                &.separator-li {
+                    width: 100%;
+                    border-top: 1px solid v.$dark-red;
+                    margin: 0.3rem 0;
+                    align-self: stretch;
+                }
             }
         }
 
@@ -54,7 +60,7 @@
         }
 
         .bottle-link {
-            all: unset;
+            all: unset!important;
             display: block;
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -69,9 +75,23 @@
             }
         }
     }
-
+    
+    //FORMULAIRES
     .bouteilles-wrapper .bouteilles-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+        .bouteille-form-container {
+        padding: 2rem 4rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        .full-width {
+            grid-column: auto;
+        }
     }
 }
 
@@ -89,7 +109,7 @@
         grid-column: span 1;
         }
     }
-
+    //PRESENTATION
     .presentation__wrapper {
         .presentation {
             flex-direction: column;
@@ -122,8 +142,119 @@
         }
     }
 
+    //CAVES
     .bouteilles-wrapper .bouteilles-grid {
         grid-template-columns: 1fr;
+    }
+
+    //COMPTEURS
+    .site-counters {
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
+
+        .counter {
+            width: 100%;
+            text-align: center;
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .counter-value {
+                font-size: 2rem;
+            }
+            .counter-label {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    //FOOTER
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    //CAVES GALLERY
+    .caves-gallery {
+        grid-template-columns: 1fr;
+        height: auto;
+
+        .bottle-container {
+            height: 500px;
+
+            .bottle-inner {
+                transition: transform 0.6s ease-in-out;
+            }
+
+            .bottle-face {
+                img {
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    .bouteille-form-container {
+        padding: 1.5rem 1rem;
+        border-radius: 0;
+        max-height: unset;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .form-filtres {
+        flex-direction: column;
+        align-items: stretch;
+
+        > div {
+            min-width: unset;
+            width: 100%;
+        }
+
+        .checkboxes-inline {
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .commentaires.container {
+        padding: 1rem;
+    }
+
+    .formulaire-commentaire textarea {
+        font-size: 0.9rem;
+    }
+
+    .commentaire {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+
+        .commentaire {
+            margin-left: 1rem;
+        }
+
+        .btn {
+            font-size: 0.85rem;
+        }
+    }
+
+    .comment-actions .btn.danger {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        display: block;
     }
 }
 

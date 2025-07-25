@@ -32,9 +32,11 @@
             </div>
         {{ form_end(form) }}
 
-        <div class="ajouter-wrapper">
-            <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
-        </div>
+        {% if app.user %}
+            <div class="ajouter-wrapper">
+                <a href="{{ path('add_bouteilles') }}" class="btn ajouter-btn">Ajouter une nouvelle bouteille</a>
+            </div>
+        {% endif %}
         {# AFFICHAGE DES BOUTEILLES #}
         {% if bouteilles|length == 0 %}
             <p>Aucune bouteille enregistrée pour le moment.</p>
@@ -66,10 +68,13 @@
                                     <p><strong>Pays :</strong> {{ bouteille.pays }}</p>
                                     <p><strong>Région :</strong> {{ bouteille.region }}</p>
                                     <p class="description">{{ bouteille.description }}</p>
-                                    <form method="POST" action="{{ path('cave-add-bouteilles', { id: bouteille.id }) }}">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
-                                        <button type="submit" class="btn">Ajouter à ma cave</button>
-                                    </form>
+
+                                    {# Ajoute la bouteille à la cave de l'utilisateur #}
+                                    <button class="btn ajouter-cave"
+                                            data-id="{{ bouteille.id }}"
+                                            data-token="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
+                                        Ajouter à ma cave
+                                    </button>
                                 </div>
                             </div>
                         </div>

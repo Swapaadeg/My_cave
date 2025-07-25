@@ -35,7 +35,7 @@ class Caves
     /**
      * @var Collection<int, CommentairesCaves>
      */
-    #[ORM\OneToMany(targetEntity: CommentairesCaves::class, mappedBy: 'cave')]
+    #[ORM\OneToMany(targetEntity: CommentairesCaves::class, mappedBy: 'cave', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $commentairesCaves;
 
     /**

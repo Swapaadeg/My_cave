@@ -3,14 +3,41 @@
 {% block title %}Modifier ma cave{% endblock %}
 
 {% block body %}
-<section class="container">
+<section class="bouteille-form-container">
     <h1>Modifier votre cave</h1>
+    <p>Mettez à jour les informations de votre cave ci-dessous.</p>
 
     {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
-        {{ form_row(form.nom) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.imageFile) }}
-        <button class="btn btn-primary">Enregistrer</button>
+
+        <div class="form-grid">
+            <div class="form-group full-width">
+                {{ form_row(form.nom, {
+                    'label': 'Nom de votre cave',
+                    'label_attr': {'class': 'form-label'},
+                    'attr': {'placeholder': 'ex : Château Patate', 'class': 'form-input'}
+                }) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.description, {
+                    'label': 'Description',
+                    'label_attr': {'class': 'form-label'},
+                    'attr': {'placeholder': 'Un petit coin pour mes bouteilles favorites', 'class': 'form-input'}
+                }) }}
+            </div>
+
+            <div class="form-group full-width">
+                {{ form_row(form.imageFile, {
+                    'label': 'Image de la cave',
+                    'label_attr': {'class': 'form-label'}
+                }) }}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Enregistrer</button>
+        </div>
+
     {{ form_end(form) }}
 </section>
 {% endblock %}

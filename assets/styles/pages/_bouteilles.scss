@@ -114,43 +114,7 @@
     }
 }
 
-// MODALE FLASH
 
-.modale-flash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.modale-content {
-    background: v.$cream;
-    padding: 2rem;
-    border-radius: 10px;
-    color: v.$black;
-    font-family: 'Open Sans', sans-serif;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-}
-
-.modale-close {
-    margin-top: 1rem;
-    padding: 0.5rem 1.5rem;
-    background-color: v.$wine-red;
-    border: none;
-    color: v.$cream;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
 
 // PAGINATION
 
