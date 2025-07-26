@@ -2,14 +2,17 @@
 
 namespace App\Form;
 
-
 use App\Entity\Bouteilles;
+use App\Entity\Type;
+use App\Entity\Pays;
+use App\Entity\Region;
+use App\Entity\Cepage;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AddBouteillesType extends AbstractType
 {
@@ -17,19 +20,31 @@ class AddBouteillesType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('region')
-            ->add('pays')
-            ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'Rouge' => 'rouge',
-                    'Blanc' => 'blanc',
-                    'Rosé' => 'rosé',
-                ],
-                'expanded' => false,
-                'multiple' => false,
+            ->add('type', EntityType::class, [
+                'class' => Type::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner un type',
+                'required' => true,
+            ])
+            ->add('pays', EntityType::class, [
+                'class' => Pays::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner un pays',
+                'required' => true,
+            ])
+            ->add('region', EntityType::class, [
+                'class' => Region::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner une région',
+                'required' => true,
+            ])
+            ->add('cepage', EntityType::class, [
+                'class' => Cepage::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner un cépage',
+                'required' => true,
             ])
             ->add('millesime')
-            ->add('cepage')
             ->add('description')
             ->add('imageFile', FileType::class, [
                 'required' => false,

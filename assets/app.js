@@ -86,3 +86,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+// Sélecteur de pays et de région
+// Chargement des régions en fonction du pays sélectionné
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const paysSelect = document.querySelector('.filter-pays');
+    const regionSelect = document.querySelector('.filter-region');
+
+    if (paysSelect && regionSelect) {
+        paysSelect.addEventListener('change', function () {
+            const paysId = this.value;
+
+            // Réinitialiser le champ région
+            regionSelect.innerHTML = '<option value="">Toutes les régions</option>';
+
+            if (paysId) {
+                // Requête AJAX pour récupérer les régions
+                fetch(`/get-regions?paysId=${paysId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        data.regions.forEach(region => {
+                            const option = document.createElement('option');
+                            option.value = region.id;
+                            option.textContent = region.nom;
+                            regionSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erreur lors du chargement des régions:', error));
+            }
+        });
+    }
+});
+

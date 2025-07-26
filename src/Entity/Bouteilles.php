@@ -9,16 +9,10 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[Vich\Uploadable]
-#[UniqueEntity(
-    fields: ['nom', 'millesime', 'region', 'cepage'],
-    message: 'Une bouteille identique existe déjà avec ce nom, millésime, région et cépage.'
-)]
 #[ORM\Entity(repositoryClass: BouteillesRepository::class)]
 #[ORM\Table(name: 'bouteilles')]
-#[ORM\UniqueConstraint(name: 'unique_bouteille_combo', columns: ['nom', 'millesime', 'region', 'cepage'])]
 class Bouteilles
 {
     #[ORM\Id]
@@ -29,20 +23,8 @@ class Bouteilles
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $region = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $pays = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
     #[ORM\Column]
     private ?int $millesime = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $cepage = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -60,13 +42,30 @@ class Bouteilles
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(name: 'cepage_id', referencedColumnName: 'id', nullable: true)]
+    private ?Cepage $cepage = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(name: 'type_id', referencedColumnName: 'id')]
+    private ?Type $type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(name: 'pays_id', referencedColumnName: 'id')]
+    private ?Pays $pays = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(name: 'region_id', referencedColumnName: 'id', nullable: true)]
+    private ?Region $region = null;
 
     public function __construct()
     {
         $this->bouteilles_caves = new ArrayCollection();
     }
+
 
     // GETTER SETTER 
     public function getId(): ?int
@@ -86,41 +85,6 @@ class Bouteilles
         return $this;
     }
 
-    public function getRegion(): ?string
-    {
-        return $this->region;
-    }
-
-    public function setRegion(string $region): static
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
-    public function getPays(): ?string
-    {
-        return $this->pays;
-    }
-
-    public function setPays(string $pays): static
-    {
-        $this->pays = $pays;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getMillesime(): ?int
     {
@@ -133,13 +97,49 @@ class Bouteilles
 
         return $this;
     }
+    
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
 
-    public function getCepage(): ?string
+    public function setType(?Type $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPays(): ?Pays
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?Pays $pays): static
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    public function getRegion(): ?Region
+    {
+        return $this->region;
+    }
+
+    public function setRegion(?Region $region): static
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    public function getCepage(): ?Cepage
     {
         return $this->cepage;
     }
 
-    public function setCepage(string $cepage): static
+    public function setCepage(?Cepage $cepage): static
     {
         $this->cepage = $cepage;
 
@@ -197,7 +197,6 @@ class Bouteilles
     {
         $this->imageFile = $imageFile;
 
-        // Nécessaire pour que Doctrine détecte une modification
         if ($imageFile !== null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
