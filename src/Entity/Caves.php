@@ -31,7 +31,6 @@ class Caves
     #[ORM\ManyToOne(inversedBy: 'caves')]
     private ?User $cave = null;
 
-
     /**
      * @var Collection<int, CommentairesCaves>
      */
@@ -44,17 +43,14 @@ class Caves
     #[ORM\ManyToMany(targetEntity: Bouteilles::class, inversedBy: 'bouteilles_caves')]
     private Collection $caves_bouteilles;
 
-    //UPLOAD DES IMAGES
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
-    
+
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
-
-
 
     public function __construct()
     {
@@ -62,8 +58,8 @@ class Caves
         $this->caves_bouteilles = new ArrayCollection();
     }
 
+    // Getters et setters
 
-    //GETTER SETTER
     public function getId(): ?int
     {
         return $this->id;
@@ -77,7 +73,6 @@ class Caves
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -89,7 +84,6 @@ class Caves
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -101,19 +95,17 @@ class Caves
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
-
         return $this;
     }
 
-    public function getCave(): ?user
+    public function getCave(): ?User
     {
         return $this->cave;
     }
 
-    public function setCave(?user $cave): static
+    public function setCave(?User $cave): static
     {
         $this->cave = $cave;
-
         return $this;
     }
 
@@ -131,19 +123,16 @@ class Caves
             $this->commentairesCaves->add($commentairesCave);
             $commentairesCave->setCave($this);
         }
-
         return $this;
     }
 
     public function removeCommentairesCave(CommentairesCaves $commentairesCave): static
     {
         if ($this->commentairesCaves->removeElement($commentairesCave)) {
-            // set the owning side to null (unless already changed)
             if ($commentairesCave->getCave() === $this) {
                 $commentairesCave->setCave(null);
             }
         }
-
         return $this;
     }
 
@@ -159,49 +148,53 @@ class Caves
     {
         if (!$this->caves_bouteilles->contains($cavesBouteille)) {
             $this->caves_bouteilles->add($cavesBouteille);
+            $cavesBouteille->addBouteillesCave($this); // Bidirectionnalité
         }
-
         return $this;
     }
 
     public function removeCavesBouteille(Bouteilles $cavesBouteille): static
     {
-        $this->caves_bouteilles->removeElement($cavesBouteille);
-
+        if ($this->caves_bouteilles->removeElement($cavesBouteille)) {
+            $cavesBouteille->removeBouteillesCave($this); // Bidirectionnalité
+        }
         return $this;
     }
 
-        //IMAGES
-
-    public function setImageName(?string $imageName): void {
-        $this->imageName = $imageName;
-    }
-
-    public function getImageName(): ?string {
-       return $this->imageName;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-    return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
+    // Gestion des images
     public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(?File $imageFile): void
+    public function setImageFile(?File $imageFile = null): static
     {
         $this->imageFile = $imageFile;
-
-        if ($imageFile) {
+        if ($imageFile !== null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
+        return $this;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
     }
 }

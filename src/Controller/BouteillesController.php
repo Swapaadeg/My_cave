@@ -15,19 +15,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class BouteillesController extends AbstractController
 {
     #[Route('/bouteilles', name: 'bouteilles')]
-    public function index(Request $request, PaginatorInterface $paginator, BouteillesRepository $vinRepository): Response
-    {
-        // Création et traitement du formulaire de filtres
+    public function index(
+        Request $request,
+        PaginatorInterface $paginator,
+        BouteillesRepository $vinRepository
+    ): Response {
         $form = $this->createForm(BouteillesFilterType::class);
         $form->handleRequest($request);
+
+        $submittedData = $request->query->all()['bouteilles_filter'] ?? [];
+
         $filters = $form->getData() ?? [];
 
-        \dump('Filters:', $filters); // Ajoute ceci pour voir les valeurs reçues
 
-        // On récupère un QueryBuilder avec les filtres
+dump('Form filters', $filters);
+dump('Submitted raw data', $submittedData);
+
+        // Correction pour que `region` fonctionne même si l'objet n'est pas hydraté
+        if (
+            empty($filters['region']) &&
+            isset($submittedData['region']) &&
+            is_numeric($submittedData['region'])
+        ) {
+            $filters['region'] = (int)$submittedData['region'];
+        }
+
+        // Correction pour les types multiples (checkbox)
+        if (
+            empty($filters['type']) &&
+            isset($submittedData['type']) &&
+            is_array($submittedData['type'])
+        ) {
+            $filters['type'] = array_map('intval', $submittedData['type']);
+        }
+
+        // Correction pour cépage
+        if (
+            empty($filters['cepage']) &&
+            isset($submittedData['cepage']) &&
+            is_numeric($submittedData['cepage'])
+        ) {
+            $filters['cepage'] = (int)$submittedData['cepage'];
+        }
+
+        // Correction pour pays
+        if (
+            empty($filters['pays']) &&
+            isset($submittedData['pays']) &&
+            is_numeric($submittedData['pays'])
+        ) {
+            $filters['pays'] = (int)$submittedData['pays'];
+        }
+
         $queryBuilder = $vinRepository->getFilteredQueryBuilder($filters);
 
-        // Pagination
         $pagination = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
@@ -45,19 +86,16 @@ final class BouteillesController extends AbstractController
     {
         $paysId = $request->query->get('paysId');
 
-        if (!$paysId) {
+        if (!$paysId || !is_numeric($paysId)) {
             return new JsonResponse(['regions' => []]);
         }
 
         $regions = $regionRepository->findBy(['pays' => $paysId]);
 
-        $data = [];
-        foreach ($regions as $region) {
-            $data[] = [
-                'id' => $region->getId(),
-                'nom' => $region->getNom()
-            ];
-        }
+        $data = array_map(fn($region) => [
+            'id' => $region->getId(),
+            'nom' => $region->getNom()
+        ], $regions);
 
         return new JsonResponse(['regions' => $data]);
     }

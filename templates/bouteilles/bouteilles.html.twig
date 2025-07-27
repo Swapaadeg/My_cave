@@ -9,7 +9,12 @@
     {# Formulaire de filtres #}
     {{ form_start(form, {'method': 'GET', 'attr': {'class': 'form-filtres'}}) }}
         <div class="form-group">
-            {{ form_row(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Rechercher par nom'}}) }}
+            {{ form_row(form.nom, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Rechercher par nom'
+                }
+            }) }}
         </div>
 
         <div class="form-group">
@@ -25,19 +30,41 @@
         </div>
 
         <div class="form-group">
-            {{ form_row(form.pays, {'attr': {'class': 'form-control filter-pays'}}) }}
+            {{ form_row(form.pays, {
+                'attr': {
+                    'class': 'form-control filter-pays'
+                }
+            }) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.region, {'attr': {'class': 'form-control filter-region'}}) }}
+            {{ form_label(form.region) }}
+            {% set regionValue = form.region.vars.value %}
+            {% set regionId = regionValue.id is defined ? regionValue.id : regionValue %}
+
+            {{ form_widget(form.region, {
+                'attr': {
+                    'class': 'form-control filter-region',
+                    'data-selected': regionId
+                }
+            }) }}
+
+            {{ form_errors(form.region) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.cepage, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.cepage, {
+                'attr': {'class': 'form-control'}
+            }) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.millesime, {'attr': {'class': 'form-control', 'placeholder': 'Année'}}) }}
+            {{ form_row(form.millesime, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Année'
+                }
+            }) }}
         </div>
 
         <div class="form-group">
@@ -53,9 +80,9 @@
     {% endif %}
 
     {# AFFICHAGE DES BOUTEILLES #}
-    {% if bouteilles|length == 0 %}
+    {% if bouteilles is defined and bouteilles|length == 0 %}
         <p>Aucune bouteille enregistrée pour le moment.</p>
-    {% else %}
+    {% elseif bouteilles is defined and bouteilles|length > 0 %}
         <div class="bouteilles-grid">
             {% for bouteille in bouteilles %}
                 {# IMAGE DYNAMIQUE SELON LE TYPE #}
@@ -97,6 +124,8 @@
                 </div>
             {% endfor %}
         </div>
+    {% else %}
+        <p>Les données des bouteilles ne sont pas disponibles.</p>
     {% endif %}
 
     {# MODALE FLASH #}
@@ -114,30 +143,32 @@
     {% endfor %}
 
     {# PAGINATION #}
-    <div class="pagination">
-        <ul>
-            {% if bouteilles.paginationData.previous is defined %}
-                <li>
-                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.previous})) }}">&laquo;</a>
-                </li>
-            {% endif %}
+    {% if bouteilles is defined and bouteilles.paginationData is defined %}
+        <div class="pagination">
+            <ul>
+                {% if bouteilles.paginationData.previous is defined %}
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.previous})) }}">&laquo;</a>
+                    </li>
+                {% endif %}
 
-            {% for i in 1..bouteilles.paginationData.pageCount %}
-                <li class="{{ i == bouteilles.paginationData.current ? 'current' : '' }}">
-                    {% if i == bouteilles.paginationData.current %}
-                        <span>{{ i }}</span>
-                    {% else %}
-                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
+                {% for i in 1..bouteilles.paginationData.pageCount %}
+                    <li class="{{ i == bouteilles.paginationData.current ? 'current' : '' }}">
+                        {% if i == bouteilles.paginationData.current %}
+                            <span>{{ i }}</span>
+                        {% else %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
 
-            {% if bouteilles.paginationData.next is defined %}
-                <li>
-                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.next})) }}">&raquo;</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
+                {% if bouteilles.paginationData.next is defined %}
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': bouteilles.paginationData.next})) }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 </section>
 {% endblock %}

@@ -63,7 +63,7 @@ class BouteillesFilterType extends AbstractType
                 'label' => 'Millésime',
                 'attr' => [
                     'min' => 1900,
-                    'max' => (new \DateTime())->format('Y'),
+                    'max' => (int) (new \DateTime())->format('Y'),
                 ],
             ]);
     }
@@ -71,7 +71,8 @@ class BouteillesFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'method' => 'GET'
+            'method' => 'GET',
+            'csrf_protection' => false,
         ]);
     }
 }

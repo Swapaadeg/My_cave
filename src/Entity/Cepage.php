@@ -18,10 +18,7 @@ class Cepage
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    /**
-     * @var Collection<int, Bouteilles>
-     */
-    #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'cepage')]
+    #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'cepage', cascade: ['persist'])]
     private Collection $bouteilles;
 
     public function __construct()
@@ -42,7 +39,6 @@ class Cepage
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -58,21 +54,23 @@ class Cepage
     {
         if (!$this->bouteilles->contains($bouteille)) {
             $this->bouteilles->add($bouteille);
-            $bouteille->setCepage($this);
+            $bouteille->setCepage($this); // Maintien de la bidirectionnalité
         }
-
         return $this;
     }
 
     public function removeBouteille(Bouteilles $bouteille): static
     {
         if ($this->bouteilles->removeElement($bouteille)) {
-            // set the owning side to null (unless already changed)
             if ($bouteille->getCepage() === $this) {
-                $bouteille->setCepage(null);
+                $bouteille->setCepage(null); // Nettoyage du côté inverse
             }
         }
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }

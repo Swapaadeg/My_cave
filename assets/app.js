@@ -55,10 +55,21 @@ window.fermerModal = fermerModal;
 
 // Ajout de bouteille à la cave
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.ajouter-cave').forEach(button => {
+    const buttons = document.querySelectorAll('.ajouter-cave');
+
+    buttons.forEach(button => {
+        console.log('Bouton trouvé :', button);
         button.addEventListener('click', function () {
             const bouteilleId = this.dataset.id;
             const csrfToken = this.dataset.token;
+
+            console.log('Click sur bouton avec id:', bouteilleId, 'et token:', csrfToken);
+
+            if (!bouteilleId || !csrfToken) {
+                console.error('ID ou token manquant :', { bouteilleId, csrfToken });
+                alert('Erreur : ID ou token manquant.');
+                return;
+            }
 
             fetch(`/cave/ajouter/${bouteilleId}`, {
                 method: 'POST',
@@ -69,19 +80,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: `_token=${encodeURIComponent(csrfToken)}`
             })
             .then(response => {
+                console.log('Réponse reçue :', response.status);
                 if (!response.ok) {
-                    throw new Error('Erreur lors de l\'ajout');
+                    throw new Error(`Erreur HTTP: ${response.status}`);
                 }
                 return response.text();
             })
             .then(() => {
+                console.log('Ajout réussi pour id:', bouteilleId);
                 this.textContent = "Ajoutée ✔️";
                 this.disabled = true;
                 this.classList.add("ajoutee");
             })
             .catch(error => {
-                console.error(error);
-                alert("Une erreur est survenue.");
+                console.error('Erreur lors de l\'ajout :', error);
+                alert("Une erreur est survenue : " + error.message);
             });
         });
     });
@@ -96,33 +109,44 @@ document.addEventListener('DOMContentLoaded', function () {
     const paysSelect = document.querySelector('.filter-pays');
     const regionSelect = document.querySelector('.filter-region');
 
-    if (paysSelect && regionSelect) {
-        paysSelect.addEventListener('change', function () {
-            const paysId = this.value;
+    const loadRegions = (paysId, selectedRegionId = null) => {
+        regionSelect.innerHTML = '<option value="">Toutes les régions</option>';
 
-            // Réinitialiser le champ région
-            regionSelect.innerHTML = '<option value="">Toutes les régions</option>';
-
-            if (paysId) {
-                // Requête AJAX pour récupérer les régions
-                fetch(`/get-regions?paysId=${paysId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    },
+        if (paysId) {
+            fetch(`/get-regions?paysId=${paysId}`, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data.regions.forEach(region => {
+                        const option = document.createElement('option');
+                        option.value = region.id;
+                        option.textContent = region.nom;
+                        if (selectedRegionId && region.id == selectedRegionId) {
+                            option.selected = true;
+                        }
+                        regionSelect.appendChild(option);
+                    });
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        data.regions.forEach(region => {
-                            const option = document.createElement('option');
-                            option.value = region.id;
-                            option.textContent = region.nom;
-                            regionSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Erreur lors du chargement des régions:', error));
-            }
+                .catch(error => console.error('Erreur lors du chargement des régions:', error));
+        }
+    };
+
+    if (paysSelect && regionSelect) {
+        // Gestion du changement de pays
+        paysSelect.addEventListener('change', function () {
+            loadRegions(this.value);
         });
+
+        // Pré-remplir les régions si un pays est sélectionné au chargement
+        const selectedPaysId = paysSelect.value;
+        const selectedRegionId = regionSelect.dataset.selected;
+
+        if (selectedPaysId) {
+            loadRegions(selectedPaysId, selectedRegionId);
+        }
     }
 });
+
 

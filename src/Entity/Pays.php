@@ -21,19 +21,19 @@ class Pays
     /**
      * @var Collection<int, Bouteilles>
      */
-    #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'pays')]
+    #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'pays', cascade: ['persist'])]
     private Collection $bouteilles;
 
     /**
      * @var Collection<int, Region>
      */
-    #[ORM\OneToMany(targetEntity: Region::class, mappedBy: 'pays')]
-    private Collection $regions; // Changé de $region à $regions
+    #[ORM\OneToMany(targetEntity: Region::class, mappedBy: 'pays', cascade: ['persist'])]
+    private Collection $regions;
 
     public function __construct()
     {
         $this->bouteilles = new ArrayCollection();
-        $this->regions = new ArrayCollection(); 
+        $this->regions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,7 +49,6 @@ class Pays
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -65,9 +64,8 @@ class Pays
     {
         if (!$this->bouteilles->contains($bouteille)) {
             $this->bouteilles->add($bouteille);
-            $bouteille->setPays($this);
+            $bouteille->setPays($this); // Assure la bidirectionnalité
         }
-
         return $this;
     }
 
@@ -75,10 +73,9 @@ class Pays
     {
         if ($this->bouteilles->removeElement($bouteille)) {
             if ($bouteille->getPays() === $this) {
-                $bouteille->setPays(null);
+                $bouteille->setPays(null); // Nettoie le côté inverse
             }
         }
-
         return $this;
     }
 
@@ -93,20 +90,24 @@ class Pays
     public function addRegion(Region $region): static
     {
         if (!$this->regions->contains($region)) {
-            $this->regions->add($region); 
+            $this->regions->add($region);
+            $region->setPays($this); // Assure la bidirectionnalité
         }
-
         return $this;
     }
 
     public function removeRegion(Region $region): static
     {
-        if ($this->regions->removeElement($region)) { 
+        if ($this->regions->removeElement($region)) {
             if ($region->getPays() === $this) {
-                $region->setPays(null);
+                $region->setPays(null); // Nettoie le côté inverse
             }
         }
-
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }

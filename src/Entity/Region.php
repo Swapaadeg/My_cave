@@ -24,7 +24,7 @@ class Region
     #[ORM\OneToMany(targetEntity: Bouteilles::class, mappedBy: 'region')]
     private Collection $bouteilles;
 
-    #[ORM\ManyToOne(inversedBy: 'region')]
+    #[ORM\ManyToOne(inversedBy: 'regions')]
     private ?Pays $pays = null;
 
     public function __construct()
@@ -89,5 +89,9 @@ class Region
         $this->pays = $pays;
 
         return $this;
+    }
+        public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }
