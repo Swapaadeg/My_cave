@@ -25,15 +25,15 @@ class Pays
     private Collection $bouteilles;
 
     /**
-     * @var Collection<int, region>
+     * @var Collection<int, Region>
      */
-    #[ORM\OneToMany(targetEntity: region::class, mappedBy: 'pays')]
-    private Collection $region;
+    #[ORM\OneToMany(targetEntity: Region::class, mappedBy: 'pays')]
+    private Collection $regions; // Changé de $region à $regions
 
     public function __construct()
     {
         $this->bouteilles = new ArrayCollection();
-        $this->region = new ArrayCollection();
+        $this->regions = new ArrayCollection(); 
     }
 
     public function getId(): ?int
@@ -74,7 +74,6 @@ class Pays
     public function removeBouteille(Bouteilles $bouteille): static
     {
         if ($this->bouteilles->removeElement($bouteille)) {
-            // set the owning side to null (unless already changed)
             if ($bouteille->getPays() === $this) {
                 $bouteille->setPays(null);
             }
@@ -84,27 +83,25 @@ class Pays
     }
 
     /**
-     * @return Collection<int, region>
+     * @return Collection<int, Region>
      */
-    public function getRegion(): Collection
+    public function getRegions(): Collection
     {
-        return $this->region;
+        return $this->regions;
     }
 
-    public function addRegion(region $region): static
+    public function addRegion(Region $region): static
     {
-        if (!$this->region->contains($region)) {
-            $this->region->add($region);
-            $region->setPays($this);
+        if (!$this->regions->contains($region)) {
+            $this->regions->add($region); 
         }
 
         return $this;
     }
 
-    public function removeRegion(region $region): static
+    public function removeRegion(Region $region): static
     {
-        if ($this->region->removeElement($region)) {
-            // set the owning side to null (unless already changed)
+        if ($this->regions->removeElement($region)) { 
             if ($region->getPays() === $this) {
                 $region->setPays(null);
             }
