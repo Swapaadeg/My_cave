@@ -21,19 +21,17 @@
 
     {# BG PERSONNALISÉ SELON LE CHOIX D'IMAGE  #}
     {% if cave.imageName %}
-        <section class="cave-image" style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}');">
-        </section>
+        <section class="cave-image" style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}');"></section>
     {% else %}
         <section class="cave-image default-bg"></section>
     {% endif %}
-    <section class="bouteilles-wrapper container" style="
+
+    <section class="bouteilles-wrapper container 
+        {% if cave.imageName %}bg-with-image{% else %}bg-default{% endif %}"
         {% if cave.imageName %}
-            background: url('{{ asset('uploads/images/' ~ cave.imageName) }}') no-repeat center center;
-            background-size: cover;
-            padding: 9rem 10rem;
-        {% else %}
-            background-color: #88002d1b;
-        {% endif %}">
+            style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}');"
+        {% endif %}>
+
 
         {# AFFICHAGE DES BOUTEILLES #}
 

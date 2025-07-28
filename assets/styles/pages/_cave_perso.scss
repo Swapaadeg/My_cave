@@ -30,3 +30,18 @@
         margin-top: 1rem;
     }
 }
+
+.bouteilles-wrapper {
+    &.bg-with-image {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        padding: 9rem 10rem;
+    }
+
+    &.bg-default {
+        background-color: rgba(v.$plum, 0.1);
+        padding: 4rem 2rem;
+    }
+}
+

@@ -25,8 +25,9 @@ class EditCaveType extends AbstractType
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image',
                 'required' => false,
+                'allow_delete' => false,
                 'download_uri' => false,
-                'image_uri' => true,
+                'image_uri' => false,
             ]);
     }
 
