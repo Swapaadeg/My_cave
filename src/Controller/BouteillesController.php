@@ -68,7 +68,7 @@ final class BouteillesController extends AbstractController
         $pagination = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
-            20
+            12
         );
 
         return $this->render('bouteilles/bouteilles.html.twig', [

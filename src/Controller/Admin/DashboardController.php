@@ -2,10 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Pays;
+use App\Entity\Type;
 use App\Entity\User;
 use App\Entity\Caves;
+use App\Entity\Cepage;
+use App\Entity\Region;
 use App\Entity\Bouteilles;
 use App\Entity\CommentairesCaves;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -17,29 +22,30 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    private EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     public function index(): Response
     {
-        // return parent::index();
+        $bouteillesCount = $this->em->getRepository(\App\Entity\CaveBouteille::class)
+            ->createQueryBuilder('cb')
+            ->select('SUM(cb.quantite)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $usersCount = $this->em->getRepository(User::class)->count([]);
+        $cavesCount = $this->em->getRepository(Caves::class)->count([]);
+        $commentairesCount = $this->em->getRepository(CommentairesCaves::class)->count([]);
 
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // 1.1) If you have enabled the "pretty URLs" feature:
-        // return $this->redirectToRoute('admin_user_index');
-        //
-        // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirectToRoute('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        return $this->render('admin/index.html.twig');
+        return $this->render('admin/index.html.twig', [
+            'bouteillesCount' => $bouteillesCount,
+            'usersCount' => $usersCount,
+            'cavesCount' => $cavesCount,
+            'commentairesCount' => $commentairesCount,
+        ]);
     }
 
     public function configureDashboard(): Dashboard
@@ -51,9 +57,13 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Bouteilles', 'fas fa-list', Bouteilles::class);
-        yield MenuItem::linkToCrud('Caves', 'fas fa-list', Caves::class);
-        yield MenuItem::linkToCrud('Commentaires des Caves', 'fas fa-list', CommentairesCaves::class);
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Bouteilles', 'fa-solid fa-wine-bottle', Bouteilles::class); // bouteille
+        yield MenuItem::linkToCrud('Caves', 'fa-solid fa-warehouse', Caves::class); // entrepôt/cave
+        yield MenuItem::linkToCrud('Commentaires des Caves', 'fa-solid fa-comment-dots', CommentairesCaves::class); // commentaire
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', User::class); // utilisateur
+        yield MenuItem::linkToCrud('Regions', 'fa-solid fa-mountain', Region::class); // montagne/région
+        yield MenuItem::linkToCrud('Pays', 'fa-solid fa-flag', Pays::class); // drapeau/pays
+        yield MenuItem::linkToCrud('Cépages', 'fa-solid fa-seedling', Cepage::class); // plant/vigne
+        yield MenuItem::linkToCrud('Types', 'fa-solid fa-tags', Type::class); // étiquette/type
     }
 }

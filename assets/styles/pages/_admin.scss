@@ -1,0 +1,28 @@
+@use '../abstracts/variables' as v;
+.admin-stats {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.admin-stats__card {
+  background: v.$cream;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  flex: 1 1 180px;
+}
+
+.admin-stats__value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.admin-stats__label {
+  font-size: 1.1rem;
+  color: v.$black;
+}

@@ -15,24 +15,16 @@ window.fermerModal = fermerModal;
 
 
 
-// Ajout de bouteille à la cave
-document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.ajouter-cave');
 
-    buttons.forEach(button => {
-        console.log('Bouton trouvé :', button);
+// Gestion AJAX du stock cave (boutons + et -)
+document.addEventListener('DOMContentLoaded', function () {
+    // Ajout de bouteille à la cave (boutons sur page bouteilles)
+    const addButtons = document.querySelectorAll('.ajouter-cave');
+    addButtons.forEach(button => {
         button.addEventListener('click', function () {
             const bouteilleId = this.dataset.id;
             const csrfToken = this.dataset.token;
-
-            console.log('Click sur bouton avec id:', bouteilleId, 'et token:', csrfToken);
-
-            if (!bouteilleId || !csrfToken) {
-                console.error('ID ou token manquant :', { bouteilleId, csrfToken });
-                alert('Erreur : ID ou token manquant.');
-                return;
-            }
-
+            if (!bouteilleId || !csrfToken) return;
             fetch(`/cave/ajouter/${bouteilleId}`, {
                 method: 'POST',
                 headers: {
@@ -42,22 +34,79 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: `_token=${encodeURIComponent(csrfToken)}`
             })
             .then(response => {
-                console.log('Réponse reçue :', response.status);
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
                 return response.text();
             })
             .then(() => {
-                console.log('Ajout réussi pour id:', bouteilleId);
                 this.textContent = "Ajoutée ✔️";
                 this.disabled = true;
                 this.classList.add("ajoutee");
             })
             .catch(error => {
-                console.error('Erreur lors de l\'ajout :', error);
                 alert("Une erreur est survenue : " + error.message);
             });
         });
+    });
+
+    // Gestion AJAX + et - sur la page cave perso
+    function updateStockTotal() {
+        let total = 0;
+        document.querySelectorAll('.stock-quantite').forEach(span => {
+            total += parseInt(span.textContent, 10) || 0;
+        });
+        const totalSpan = document.querySelector('.stock-total .stock-total-value');
+        if (totalSpan) {
+            totalSpan.textContent = total;
+        }
+    }
+
+    document.querySelectorAll('.stock-actions').forEach(actions => {
+        const btnPlus = actions.querySelector('.btn-increment');
+        const btnMoins = actions.querySelector('.btn-decrement');
+        const stockSpan = actions.querySelector('.stock-quantite');
+        if (btnPlus) {
+            btnPlus.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.dataset.url;
+                const token = this.dataset.token;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `_token=${encodeURIComponent(token)}`
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && stockSpan) {
+                        stockSpan.textContent = data.quantite;
+                        updateStockTotal();
+                    }
+                });
+            });
+        }
+        if (btnMoins) {
+            btnMoins.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.dataset.url;
+                const token = this.dataset.token;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `_token=${encodeURIComponent(token)}`
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && stockSpan) {
+                        stockSpan.textContent = data.quantite;
+                        updateStockTotal();
+                    }
+                });
+            });
+        }
     });
 });

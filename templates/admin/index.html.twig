@@ -1,1 +1,24 @@
-{% extends '@EasyAdmin/page/content.html.twig'%}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_content %}
+    <a href="{{ path('home') }}" style="margin-bottom:2rem;display:inline-block;padding:0.7rem 1.5rem;background:#1a237e;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.07);transition:background 0.2s;">Retourner au site</a>
+    <h1 style="margin-bottom:2rem;color:#222;font-size:2.2rem;">Statistiques du site</h1>
+    <div style="display:flex;gap:2rem;margin:2rem 0;flex-wrap:wrap;">
+        <div style="background:#f8f5ee;padding:1.5rem 2rem;border-radius:10px;text-align:center;min-width:180px;box-shadow:0 2px 8px rgba(0,0,0,0.04);flex:1 1 180px;">
+            <div style="font-size:2.5rem;font-weight:bold;color:#1a237e;margin-bottom:0.5rem;">{{ bouteillesCount ?? 0 }}</div>
+            <div style="font-size:1.1rem;color:#222;">Bouteilles en stock</div>
+        </div>
+        <div style="background:#f8f5ee;padding:1.5rem 2rem;border-radius:10px;text-align:center;min-width:180px;box-shadow:0 2px 8px rgba(0,0,0,0.04);flex:1 1 180px;">
+            <div style="font-size:2.5rem;font-weight:bold;color:#1a237e;margin-bottom:0.5rem;">{{ cavesCount ?? 0 }}</div>
+            <div style="font-size:1.1rem;color:#222;">Caves</div>
+        </div>
+        <div style="background:#f8f5ee;padding:1.5rem 2rem;border-radius:10px;text-align:center;min-width:180px;box-shadow:0 2px 8px rgba(0,0,0,0.04);flex:1 1 180px;">
+            <div style="font-size:2.5rem;font-weight:bold;color:#1a237e;margin-bottom:0.5rem;">{{ usersCount ?? 0 }}</div>
+            <div style="font-size:1.1rem;color:#222;">Utilisateurs</div>
+        </div>
+        <div style="background:#f8f5ee;padding:1.5rem 2rem;border-radius:10px;text-align:center;min-width:180px;box-shadow:0 2px 8px rgba(0,0,0,0.04);flex:1 1 180px;">
+            <div style="font-size:2.5rem;font-weight:bold;color:#1a237e;margin-bottom:0.5rem;">{{ commentairesCount ?? 0 }}</div>
+            <div style="font-size:1.1rem;color:#222;">Commentaires</div>
+        </div>
+    </div>
+{% endblock %}

@@ -29,8 +29,6 @@ class Bouteilles
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Caves::class, mappedBy: 'caves_bouteilles')]
-    private Collection $bouteilles_caves;
 
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
@@ -61,9 +59,15 @@ class Bouteilles
     #[ORM\JoinColumn(name: 'region_id', referencedColumnName: 'id', nullable: true)]
     private ?Region $region = null;
 
+    /**
+     * @var Collection<int, CaveBouteille>
+     */
+    #[ORM\OneToMany(targetEntity: CaveBouteille::class, mappedBy: 'bouteille')]
+    private Collection $caveBouteilles;
+
     public function __construct()
     {
-        $this->bouteilles_caves = new ArrayCollection();
+        $this->caveBouteilles = new ArrayCollection();
     }
 
     // Getters et setters
@@ -150,30 +154,6 @@ class Bouteilles
         return $this;
     }
 
-    /**
-     * @return Collection<int, Caves>
-     */
-    public function getBouteillesCaves(): Collection
-    {
-        return $this->bouteilles_caves;
-    }
-
-    public function addBouteillesCave(Caves $bouteillesCave): static
-    {
-        if (!$this->bouteilles_caves->contains($bouteillesCave)) {
-            $this->bouteilles_caves->add($bouteillesCave);
-            $bouteillesCave->addCavesBouteille($this); // Bidirectionnalité
-        }
-        return $this;
-    }
-
-    public function removeBouteillesCave(Caves $bouteillesCave): static
-    {
-        if ($this->bouteilles_caves->removeElement($bouteillesCave)) {
-            $bouteillesCave->removeCavesBouteille($this); // Bidirectionnalité
-        }
-        return $this;
-    }
 
     // Gestion des images
     public function getImageFile(): ?File
@@ -220,6 +200,36 @@ class Bouteilles
     public function setUser(?User $user): static
     {
         $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CaveBouteille>
+     */
+    public function getCaveBouteilles(): Collection
+    {
+        return $this->caveBouteilles;
+    }
+
+    public function addCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if (!$this->caveBouteilles->contains($caveBouteille)) {
+            $this->caveBouteilles->add($caveBouteille);
+            $caveBouteille->setBouteille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if ($this->caveBouteilles->removeElement($caveBouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($caveBouteille->getBouteille() === $this) {
+                $caveBouteille->setBouteille(null);
+            }
+        }
+
         return $this;
     }
 }

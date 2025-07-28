@@ -55,7 +55,7 @@ final class CavePersoController extends AbstractController
 
         return $this->render('cave_perso/cave_perso.html.twig', [
             'cave' => $cave,
-            'bouteilles' => $cave->getCavesBouteilles(),
+            'bouteilles' => $cave->getCaveBouteilles(),
             'form_commentaire' => $result['form_commentaire']->createView(),
             'form_reponse' => $result['form_reponse']->createView(),
         ]);
@@ -78,7 +78,7 @@ final class CavePersoController extends AbstractController
 
         return $this->render('cave_perso/cave_perso.html.twig', [
             'cave' => $cave,
-            'bouteilles' => $cave->getCavesBouteilles(),
+            'bouteilles' => $cave->getCaveBouteilles(),
             'form_commentaire' => $result['form_commentaire']->createView(),
             'form_reponse' => $result['form_reponse']->createView(),
         ]);

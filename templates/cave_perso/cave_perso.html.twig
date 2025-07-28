@@ -13,8 +13,16 @@
             <p><strong>Propriétaire :</strong> {{ cave.cave.username }}</p>
             <p><strong>Description :</strong> {{ cave.description }}</p>
             <p><strong>Créée le :</strong> {{ cave.createdAt|date('d/m/Y') }}</p>
+            {# Calcul du stock total #}
+            {% set stock_total = 0 %}
+            {% for caveBouteille in bouteilles %}
+                {% set stock_total = stock_total + caveBouteille.quantite %}
+            {% endfor %}
+            <div class="stock-total" style="margin-bottom:2rem;">
+                <strong>Stock total :</strong> <span class="stock-total-value">{{ stock_total }}</span> bouteille{{ stock_total > 1 ? 's' : '' }}
+            </div>
         </div>
-        {% if bouteilles is empty %}
+        {% if bouteilles is empty or bouteilles|length == 0 %}
             <p class="empty">Aucune bouteille dans cette cave pour le moment.</p>
         {% else %}
     </section>
@@ -35,9 +43,36 @@
 
         {# AFFICHAGE DES BOUTEILLES #}
 
+
             <div class="bouteilles-grid">
-                {% for bouteille in bouteilles %}
+                {% for caveBouteille in bouteilles %}
+                    {% set bouteille = caveBouteille.bouteille %}
+                    {% if bouteille is not null %}
                     <div class="bouteille-card">
+                        {% if app.user and app.user.id == cave.cave.id %}
+                            <div class="stock-actions" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <button type="button"
+                                    class="btn btn-secondary btn-decrement"
+                                    data-url="{{ path('cave_decrement_bouteille', {'id': caveBouteille.id}) }}"
+                                    data-token="{{ csrf_token('decrement_' ~ caveBouteille.id) }}"
+                                    {% if caveBouteille.quantite <= 1 %}disabled{% endif %}>
+                                    -
+                                </button>
+                                <span><strong>En stock :</strong> <span class="stock-quantite">{{ caveBouteille.quantite }}</span></span>
+                                <button type="button"
+                                    class="btn btn-secondary btn-increment"
+                                    data-url="{{ path('cave_increment_bouteille', {'id': caveBouteille.id}) }}"
+                                    data-token="{{ csrf_token('increment_' ~ caveBouteille.id) }}">
+                                    +
+                                </button>
+                                <form method="post" action="{{ path('cave-remove-bouteilles', {'id': bouteille.id}) }}" style="display:inline; margin-left:1rem;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('retrait_cave_' ~ bouteille.id) }}">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Retirer cette bouteille de votre cave ?');">
+                                        Retirer
+                                    </button>
+                                </form>
+                            </div>
+                        {% endif %}
                         <div class="card-inner">
                             <div class="image-wrapper">
                                 {% set image = bouteille.imageName
@@ -59,17 +94,10 @@
                                     <p><strong>Région :</strong> {{ bouteille.region }}</p>
                                     <p class="description">{{ bouteille.description }}</p>
                                 </div>
-                                {% if app.user and app.user.id == cave.cave.id %}
-                                    <form method="post" action="{{ path('cave-remove-bouteilles', {'id': bouteille.id}) }}" style="margin-top:1rem;">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('retrait_cave_' ~ bouteille.id) }}">
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Retirer cette bouteille de votre cave ?');">
-                                            Retirer cette bouteille
-                                        </button>
-                                    </form>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}

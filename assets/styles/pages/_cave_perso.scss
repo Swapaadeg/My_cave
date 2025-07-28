@@ -1,4 +1,5 @@
 @use '../abstracts/variables' as v;
+@use 'sass:color';
 
 .cave-header {
     background-color: rgba(250, 243, 240, 0.95);
@@ -31,7 +32,11 @@
     }
 }
 
+
 .bouteilles-wrapper {
+    padding: 4rem 2rem;
+    background-color: #88002d1b;
+
     &.bg-with-image {
         background-repeat: no-repeat;
         background-position: center center;
@@ -42,6 +47,94 @@
     &.bg-default {
         background-color: rgba(v.$plum, 0.1);
         padding: 4rem 2rem;
+    }
+
+    .bouteilles-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+
+    .bouteille-card {
+        background: linear-gradient(
+            135deg,
+            color.adjust(v.$plum, $lightness: 20%) 0%,
+            v.$plum 40%,
+            color.adjust(v.$plum, $lightness: -15%) 100%
+        );
+        border: 1px solid v.$cream;
+        border-radius: 10px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        color: v.$cream;
+        .card-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        .image-wrapper {
+            height: 400px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+        }
+        .infos {
+            padding: 1rem;
+            font-family: v.$font-text;
+            color: v.$cream;
+            text-align: center;
+            h2 {
+                font-size: 1.4rem;
+                margin-top: 0;
+            }
+            .details {
+                display: none;
+                p {
+                    margin: 0.3rem 0;
+                    strong {
+                        color: v.$black;
+                    }
+                }
+                .description {
+                    margin-top: 1rem;
+                    font-style: italic;
+                }
+            }
+        }
+        &:hover {
+            .card-inner {
+                flex-direction: row;
+            }
+            .image-wrapper {
+                width: 50%;
+                height: auto;
+            }
+            .infos {
+                width: 50%;
+                text-align: left;
+                padding: 2rem;
+                h2 {
+                    display: none;
+                }
+                .details {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .stock-total {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: v.$dark-red;
     }
 }
 

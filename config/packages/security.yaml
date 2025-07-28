@@ -28,14 +28,27 @@ security:
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
+            # Redirection personnalisée si accès refusé (ex: /admin sans droits)
+            access_denied_url: /login
+
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Accès admin strict
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        # Accès cave (perso, edition, ajout/retrait/incrément/décrément)
+        - { path: ^/cave, roles: ROLE_USER }
+        - { path: ^/modif/caves, roles: ROLE_USER }
+        - { path: ^/edit_cave, roles: ROLE_USER }
+        # Accès gestion bouteilles (ajout, édition, suppression, modif)
+        - { path: ^/add/bouteilles, roles: ROLE_USER }
+        - { path: ^/modif/bouteilles, roles: ROLE_USER }
+        - { path: ^/bouteilles/(add|edit|delete), roles: ROLE_USER }
+
+
 
 when@test:
     security:

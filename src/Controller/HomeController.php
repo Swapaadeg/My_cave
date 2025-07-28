@@ -15,7 +15,12 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(EntityManagerInterface $em): Response
     {
-        $bouteillesCount = $em->getRepository(Bouteilles::class)->count([]);
+        // On compte le nombre total de bouteilles (toutes caves confondues, somme des quantités)
+        $bouteillesCount = $em->getRepository(\App\Entity\CaveBouteille::class)
+            ->createQueryBuilder('cb')
+            ->select('SUM(cb.quantite)')
+            ->getQuery()
+            ->getSingleScalarResult();
         $usersCount = $em->getRepository(User::class)->count([]);
         $cavesCount = $em->getRepository(Caves::class)->count([]);
         $cepagesCount = $em->getRepository(Bouteilles::class)

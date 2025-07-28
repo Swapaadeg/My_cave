@@ -37,11 +37,6 @@ class Caves
     #[ORM\OneToMany(targetEntity: CommentairesCaves::class, mappedBy: 'cave', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $commentairesCaves;
 
-    /**
-     * @var Collection<int, Bouteilles>
-     */
-    #[ORM\ManyToMany(targetEntity: Bouteilles::class, inversedBy: 'bouteilles_caves')]
-    private Collection $caves_bouteilles;
 
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
@@ -52,10 +47,16 @@ class Caves
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
+    /**
+     * @var Collection<int, CaveBouteille>
+     */
+    #[ORM\OneToMany(targetEntity: CaveBouteille::class, mappedBy: 'cave')]
+    private Collection $caveBouteilles;
+
     public function __construct()
     {
         $this->commentairesCaves = new ArrayCollection();
-        $this->caves_bouteilles = new ArrayCollection();
+        $this->caveBouteilles = new ArrayCollection();
     }
 
     // Getters et setters
@@ -136,30 +137,6 @@ class Caves
         return $this;
     }
 
-    /**
-     * @return Collection<int, Bouteilles>
-     */
-    public function getCavesBouteilles(): Collection
-    {
-        return $this->caves_bouteilles;
-    }
-
-    public function addCavesBouteille(Bouteilles $cavesBouteille): static
-    {
-        if (!$this->caves_bouteilles->contains($cavesBouteille)) {
-            $this->caves_bouteilles->add($cavesBouteille);
-            $cavesBouteille->addBouteillesCave($this); // Bidirectionnalité
-        }
-        return $this;
-    }
-
-    public function removeCavesBouteille(Bouteilles $cavesBouteille): static
-    {
-        if ($this->caves_bouteilles->removeElement($cavesBouteille)) {
-            $cavesBouteille->removeBouteillesCave($this); // Bidirectionnalité
-        }
-        return $this;
-    }
 
     // Gestion des images
     public function getImageFile(): ?File
@@ -195,6 +172,36 @@ class Caves
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CaveBouteille>
+     */
+    public function getCaveBouteilles(): Collection
+    {
+        return $this->caveBouteilles;
+    }
+
+    public function addCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if (!$this->caveBouteilles->contains($caveBouteille)) {
+            $this->caveBouteilles->add($caveBouteille);
+            $caveBouteille->setCave($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if ($this->caveBouteilles->removeElement($caveBouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($caveBouteille->getCave() === $this) {
+                $caveBouteille->setCave(null);
+            }
+        }
+
         return $this;
     }
 }
