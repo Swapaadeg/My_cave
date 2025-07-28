@@ -27,10 +27,6 @@ final class BouteillesController extends AbstractController
 
         $filters = $form->getData() ?? [];
 
-
-dump('Form filters', $filters);
-dump('Submitted raw data', $submittedData);
-
         // Correction pour que `region` fonctionne même si l'objet n'est pas hydraté
         if (
             empty($filters['region']) &&

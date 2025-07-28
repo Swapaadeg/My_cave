@@ -48,4 +48,25 @@ final class CaveAddBouteillesController extends AbstractController
         $this->addFlash('success', 'La bouteille a bien été ajoutée à votre cave !');
         return $this->redirectToRoute('bouteilles');
     }
+
+    #[Route('/cave/retirer/{id}', name: 'cave-remove-bouteilles', methods: ['POST'])]
+    public function retirerBouteille(Bouteilles $bouteille, EntityManagerInterface $em, Request $request, CsrfTokenManagerInterface $csrfTokenManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException();
+        }
+        $token = $request->request->get('_token');
+        if (!$csrfTokenManager->isTokenValid(new CsrfToken('retrait_cave_' . $bouteille->getId(), $token))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide');
+        }
+        $cave = $em->getRepository(Caves::class)->findOneBy(['cave' => $user]);
+        if ($cave && $cave->getCavesBouteilles()->contains($bouteille)) {
+            $cave->removeCavesBouteille($bouteille);
+            $em->persist($cave);
+            $em->flush();
+            $this->addFlash('success', 'La bouteille a bien été retirée de votre cave !');
+        }
+        return $this->redirectToRoute('cave_perso');
+    }
 }

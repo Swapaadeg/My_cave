@@ -59,6 +59,14 @@
                                     <p><strong>Région :</strong> {{ bouteille.region }}</p>
                                     <p class="description">{{ bouteille.description }}</p>
                                 </div>
+                                {% if app.user and app.user.id == cave.cave.id %}
+                                    <form method="post" action="{{ path('cave-remove-bouteilles', {'id': bouteille.id}) }}" style="margin-top:1rem;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('retrait_cave_' ~ bouteille.id) }}">
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Retirer cette bouteille de votre cave ?');">
+                                            Retirer cette bouteille
+                                        </button>
+                                    </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
