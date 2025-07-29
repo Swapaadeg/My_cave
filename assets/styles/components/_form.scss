@@ -1,6 +1,5 @@
 @use "../abstracts/variables" as v;
 
-
 //LES FORMULAIRES
 .bouteille-form-container {
     max-width: 1275px;
@@ -246,7 +245,7 @@
     border-radius: 6px;
     background-color: v.$cream;
     border-left: 4px solid v.$wine-red;
-
+    
     strong {
         color: v.$wine-red;
     }
@@ -255,7 +254,6 @@
         margin-top: 0.5rem;
     }
 
-    // Réponses imbriquées
     .commentaire {
         margin-top: 1rem;
         margin-left: 2rem;
@@ -267,14 +265,16 @@
 
 .comment-actions {
     margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
 
     .btn.danger {
         background-color: v.$wine-red;
-        color: white;
-        margin-left: 1rem;
+        color: v.$cream;
+        margin-left: 0;
 
         &:hover {
-        background-color: v.$dark-red;
+            background-color: v.$dark-red;
         }
     }
 }

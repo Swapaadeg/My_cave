@@ -95,5 +95,24 @@
             <img src="{{ asset('left.png') }}" alt="Décor gauche" class="decor decor-left">
             <img src="{{ asset('right.png') }}" alt="Décor droite" class="decor decor-right">
         </div>
+
+        <button id="scrollTopBtn" aria-label="Remonter en haut" class="scroll-top-btn">
+            <span class="arrow-up">&#9650;</span>
+        </button>
+        <script>
+        
+        // Bouton scroll top
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 200) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+        scrollBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        </script>
     </body>
 </html>

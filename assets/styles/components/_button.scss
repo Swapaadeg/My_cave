@@ -34,3 +34,32 @@
         transform: translateY(-2px);
     }
 }
+
+// Bouton scroll top
+.scroll-top-btn {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: v.$cream;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border: 1px solid v.$dark-red;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: ease-in 0.2s;
+    padding: 0;
+}
+.scroll-top-btn:hover {
+    background: #eee;
+}
+.scroll-top-btn .arrow-up {
+    display: block;
+    color: v.$dark-red;
+    font-size: 1.1rem;
+    line-height: 1;
+}

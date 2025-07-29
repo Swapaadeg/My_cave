@@ -6,7 +6,7 @@
     <h2>Les Caves</h2>
     <section class="caves-gallery">
         {% for cave in caves %}
-            <a href="{{ path('cave_afficher', { id: cave.id }) }}" class="bottle-container" style="text-decoration: none; color: inherit;">
+            <a href="{{ path('cave_afficher', { id: cave.id }) }}" class="bottle-container">
                 <div class="bottle-inner">
                     <!-- FACE AVANT -->
                     <div class="bottle-face bottle-front">

@@ -9,16 +9,18 @@
     {# Formulaire de filtres #}
     {{ form_start(form, {'method': 'GET', 'attr': {'class': 'form-filtres'}}) }}
         <div class="form-group">
-            {{ form_row(form.nom, {
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, {
                 'attr': {
                     'class': 'form-control',
                     'placeholder': 'Rechercher par nom'
                 }
             }) }}
+            {{ form_errors(form.nom) }}
         </div>
 
         <div class="form-group">
-            <label>{{ form.type.vars.label }}</label>
+            {{ form_label(form.type) }}
             <div class="checkboxes-inline">
                 {% for checkbox in form.type %}
                     <div class="form-check">
@@ -27,44 +29,49 @@
                     </div>
                 {% endfor %}
             </div>
+            {{ form_errors(form.type) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.pays, {
+            {{ form_label(form.pays) }}
+            {{ form_widget(form.pays, {
                 'attr': {
                     'class': 'form-control filter-pays'
                 }
             }) }}
+            {{ form_errors(form.pays) }}
         </div>
 
         <div class="form-group">
             {{ form_label(form.region) }}
             {% set regionValue = form.region.vars.value %}
             {% set regionId = regionValue.id is defined ? regionValue.id : regionValue %}
-
             {{ form_widget(form.region, {
                 'attr': {
                     'class': 'form-control filter-region',
                     'data-selected': regionId
                 }
             }) }}
-
             {{ form_errors(form.region) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.cepage, {
+            {{ form_label(form.cepage) }}
+            {{ form_widget(form.cepage, {
                 'attr': {'class': 'form-control'}
             }) }}
+            {{ form_errors(form.cepage) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.millesime, {
+            {{ form_label(form.millesime) }}
+            {{ form_widget(form.millesime, {
                 'attr': {
                     'class': 'form-control',
                     'placeholder': 'Année'
                 }
             }) }}
+            {{ form_errors(form.millesime) }}
         </div>
 
         <div class="form-group">

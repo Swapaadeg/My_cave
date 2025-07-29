@@ -197,7 +197,7 @@
             }
         }
     }
-
+    //BOUTEILLE FORMULAIRE
     .bouteille-form-container {
         padding: 1.5rem 1rem;
         border-radius: 0;
@@ -213,12 +213,11 @@
         padding: 1rem;
     }
 
+    //FILTRES
     .form-filtres {
         flex-direction: column;
-        align-items: stretch;
 
         > div {
-            min-width: unset;
             width: 100%;
         }
 
