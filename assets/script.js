@@ -24,3 +24,16 @@ function fermerModale() {
   setTimeout(() => {
       fermerModale();
   }, 2000);
+
+// Bouton scroll top
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 200) {
+      scrollBtn.style.display = 'flex';
+  } else {
+      scrollBtn.style.display = 'none';
+  }
+});
+scrollBtn.addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});

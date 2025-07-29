@@ -14,12 +14,20 @@
     max-width: 100%;
 }
 
+
 body {
     font-family: v.$font-text;
     margin: 0;
     padding: 0;
     background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.95) 0%, rgba(v.$plum, 0.15) 70%, rgba(v.$plum, 0.05) 100%);
 }
+
+// Correction couleur liens et paragraphes
+a {
+    color: v.$dark-red;
+    text-decoration: none;
+}
+
 
 h1, h2 {
     font-family: v.$font-title;

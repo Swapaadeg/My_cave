@@ -40,7 +40,7 @@ security:
         # Accès admin strict
         - { path: ^/admin, roles: ROLE_ADMIN }
         # Accès cave (perso, edition, ajout/retrait/incrément/décrément)
-        - { path: ^/cave, roles: ROLE_USER }
+        - { path: ^/cave/perso, roles: ROLE_USER }
         - { path: ^/modif/caves, roles: ROLE_USER }
         - { path: ^/edit_cave, roles: ROLE_USER }
         # Accès gestion bouteilles (ajout, édition, suppression, modif)
