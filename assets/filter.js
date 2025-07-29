@@ -1,7 +1,5 @@
 // Sélecteur de pays et de région
 // Chargement des régions en fonction du pays sélectionné
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const paysSelect = document.querySelector('.filter-pays');
     const regionSelect = document.querySelector('.filter-region');

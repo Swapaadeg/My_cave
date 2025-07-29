@@ -21,7 +21,7 @@ class BouteillesRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('b');
 
-        // Jointure uniquement si affichage ou filtre
+        // Jointure
         $qb->leftJoin('b.type', 't')->addSelect('t');
         $qb->leftJoin('b.cepage', 'c')->addSelect('c');
         $qb->leftJoin('b.region', 'r')->addSelect('r');
@@ -63,8 +63,6 @@ class BouteillesRepository extends ServiceEntityRepository
             $qb->andWhere('b.millesime = :millesime')
                 ->setParameter('millesime', $filters['millesime']);
         }
-
-        // Pas de dump ici pour la prod
         return $qb;
     }
 

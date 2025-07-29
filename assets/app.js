@@ -8,6 +8,7 @@ import './styles/app.scss';
 import './filter.js';
 import './script.js';
 import './bouteilles.js';
+import './cave-perso.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
