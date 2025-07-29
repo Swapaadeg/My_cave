@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class BouteillesCrudController extends AbstractCrudController
 {
@@ -21,10 +22,10 @@ class BouteillesCrudController extends AbstractCrudController
         return [
             TextField::new('nom'),
             IntegerField::new('millesime'),
-            TextField::new('cepage'),
-            TextField::new('type'),
-            TextField::new('pays'),
-            TextField::new('region'),
+            AssociationField::new('cepage'),
+            AssociationField::new('type'),
+            AssociationField::new('pays'),
+            AssociationField::new('region'),
             TextareaField::new('description'),
             ImageField::new('image_name')
                 ->setBasePath('uploads/images/')
