@@ -130,11 +130,23 @@
         }
     }
 
+    .stock-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
     .stock-total {
         text-align: center;
         font-size: 1.2rem;
         margin-bottom: 2rem;
         color: v.$dark-red;
     }
+}
+
+.default-bg{
+    background-image: url(../../img/default-cave.jpg);
+    background-position: center;
+    background-size: cover;
 }
 

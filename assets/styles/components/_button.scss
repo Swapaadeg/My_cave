@@ -1,5 +1,22 @@
 @use "../abstracts/variables" as v;
 
+
+.btn-increment, .btn-decrement {
+    padding: 0.5rem 1rem;
+    color: v.$dark-red;
+    border: 1px solid v.$dark-red;
+    border-radius: 5px;
+    background: transparent;
+    font-family: v.$font-semi-bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-increment:hover, .btn-decrement:hover {
+    background-color: v.$dark-red;
+    color: v.$cream;
+}
+
 .btn {
     display: inline-block;
     padding: 0.8rem 1.5rem;

@@ -18,7 +18,7 @@
             {% for caveBouteille in bouteilles %}
                 {% set stock_total = stock_total + caveBouteille.quantite %}
             {% endfor %}
-            <div class="stock-total" style="margin-bottom:2rem;">
+            <div class="stock-total">
                 <strong>Stock total :</strong> <span class="stock-total-value">{{ stock_total }}</span> bouteille{{ stock_total > 1 ? 's' : '' }}
             </div>
         </div>
@@ -28,70 +28,58 @@
     </section>
 
     {# BG PERSONNALISÉ SELON LE CHOIX D'IMAGE  #}
-    {% if cave.imageName %}
-        <section class="cave-image" style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}');"></section>
-    {% else %}
-        <section class="cave-image default-bg"></section>
-    {% endif %}
-
-    <section class="bouteilles-wrapper container 
-        {% if cave.imageName %}bg-with-image{% else %}bg-default{% endif %}"
-        {% if cave.imageName %}
-            style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}');"
-        {% endif %}>
+    <section class="bouteilles-wrapper container{% if cave.imageName %} bg-with-image" style="background-image: url('{{ asset('uploads/images/' ~ cave.imageName) }}'); background-position: center; background-size: cover;"{% else %} default-bg"{% endif %}>
 
 
         {# AFFICHAGE DES BOUTEILLES #}
-
-
             <div class="bouteilles-grid">
                 {% for caveBouteille in bouteilles %}
                     {% set bouteille = caveBouteille.bouteille %}
                     {% if bouteille is not null %}
+                        {% set typeNom = bouteille.type ? bouteille.type.nom|lower : '' %}
+                        {% set defaultImage = typeNom == 'rouge' 
+                            ? 'vin-rouge.jpg' 
+                            : (typeNom == 'blanc' ? 'vin-blanc.jpg' : 'vin-rose.jpg') %}
+                        {% set image = bouteille.imageName 
+                            ? 'uploads/images/' ~ bouteille.imageName 
+                            : 'uploads/images/' ~ defaultImage %}
                     <div class="bouteille-card">
-                        {% if app.user and app.user.id == cave.cave.id %}
-                            <div class="stock-actions" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <div class="stock-actions">
+                            <span><strong>En stock :</strong> <span class="stock-quantite">{{ caveBouteille.quantite }}</span></span>
+                            {% if app.user and app.user.id == cave.cave.id %}
                                 <button type="button"
-                                    class="btn btn-secondary btn-decrement"
+                                    class="btn-decrement"
                                     data-url="{{ path('cave_decrement_bouteille', {'id': caveBouteille.id}) }}"
                                     data-token="{{ csrf_token('decrement_' ~ caveBouteille.id) }}"
                                     {% if caveBouteille.quantite <= 1 %}disabled{% endif %}>
                                     -
                                 </button>
-                                <span><strong>En stock :</strong> <span class="stock-quantite">{{ caveBouteille.quantite }}</span></span>
                                 <button type="button"
-                                    class="btn btn-secondary btn-increment"
+                                    class="btn-increment"
                                     data-url="{{ path('cave_increment_bouteille', {'id': caveBouteille.id}) }}"
                                     data-token="{{ csrf_token('increment_' ~ caveBouteille.id) }}">
                                     +
                                 </button>
-                                <form method="post" action="{{ path('cave-remove-bouteilles', {'id': bouteille.id}) }}" style="display:inline; margin-left:1rem;">
+                                <form method="post" action="{{ path('cave-remove-bouteilles', {'id': bouteille.id}) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('retrait_cave_' ~ bouteille.id) }}">
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Retirer cette bouteille de votre cave ?');">
-                                        Retirer
+                                        Supprimer la bouteille
                                     </button>
                                 </form>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                         <div class="card-inner">
                             <div class="image-wrapper">
-                                {% set image = bouteille.imageName
-                                    ? 'uploads/images/' ~ bouteille.imageName
-                                    : 'uploads/images/' ~ (
-                                        bouteille.type == 'rouge' ? 'vin-rouge.jpg'
-                                        : (bouteille.type == 'blanc' ? 'vin-blanc.jpg' : 'vin-rose.jpg')
-                                    )
-                                %}
                                 <img src="{{ asset(image) }}" alt="{{ bouteille.nom }}">
                             </div>
                             <div class="infos">
                                 <h2>{{ bouteille.nom }}</h2>
                                 <div class="details">
                                     <p><strong>Millésime :</strong> {{ bouteille.millesime }}</p>
-                                    <p><strong>Cépage :</strong> {{ bouteille.cepage }}</p>
-                                    <p><strong>Type :</strong> {{ bouteille.type }}</p>
-                                    <p><strong>Pays :</strong> {{ bouteille.pays }}</p>
-                                    <p><strong>Région :</strong> {{ bouteille.region }}</p>
+                                    <p><strong>Cépage :</strong> {{ bouteille.cepage ? bouteille.cepage.nom : 'Non renseigné' }}</p>
+                                    <p><strong>Type :</strong> {{ bouteille.type ? bouteille.type.nom : 'Non renseigné' }}</p>
+                                    <p><strong>Pays :</strong> {{ bouteille.pays ? bouteille.pays.nom : 'Non renseigné' }}</p>
+                                    <p><strong>Région :</strong> {{ bouteille.region ? bouteille.region.nom : 'Non renseigné' }}</p>
                                     <p class="description">{{ bouteille.description }}</p>
                                 </div>
                             </div>
@@ -131,7 +119,7 @@
             </div>
 
             {# MODALE DE RÉPONSE #}
-            <div id="modal-reponse" class="modal" style="display: none;">
+            <div id="modal-reponse" class="modal">
                 <div class="modal-content">
                     <span class="close-modal" onclick="fermerModal()">&times;</span>
                     <h3>Répondre au commentaire</h3>

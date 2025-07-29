@@ -112,23 +112,11 @@
 
                                 {# AJOUT À MA CAVE #}
                                 {% if app.user %}
-                                    {% set dejaDansCave = false %}
-                                    {% if app.user.caves is defined and app.user.caves|length > 0 %}
-                                        {% for cave in app.user.caves %}
-                                            {% if cave.getCavesBouteilles is defined and cave.getCavesBouteilles().contains(bouteille) %}
-                                                {% set dejaDansCave = true %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if dejaDansCave %}
-                                        <span class="badge badge-success" style="background:#28a745;color:#fff;padding:0.3em 0.7em;border-radius:0.5em;font-size:0.9em;">Déjà dans ma cave</span>
-                                    {% else %}
-                                        <button class="btn ajouter-cave"
-                                                data-id="{{ bouteille.id }}"
-                                                data-token="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
-                                            Ajouter à ma cave
-                                        </button>
-                                    {% endif %}
+                                    <button class="btn ajouter-cave"
+                                            data-id="{{ bouteille.id }}"
+                                            data-token="{{ csrf_token('ajout_cave_' ~ bouteille.id) }}">
+                                        Ajouter à ma cave
+                                    </button>
                                 {% endif %}
                             </div>
                         </div>

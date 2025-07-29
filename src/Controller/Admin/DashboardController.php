@@ -57,13 +57,13 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Bouteilles', 'fa-solid fa-wine-bottle', Bouteilles::class); // bouteille
-        yield MenuItem::linkToCrud('Caves', 'fa-solid fa-warehouse', Caves::class); // entrepôt/cave
-        yield MenuItem::linkToCrud('Commentaires des Caves', 'fa-solid fa-comment-dots', CommentairesCaves::class); // commentaire
-        yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', User::class); // utilisateur
-        yield MenuItem::linkToCrud('Regions', 'fa-solid fa-mountain', Region::class); // montagne/région
-        yield MenuItem::linkToCrud('Pays', 'fa-solid fa-flag', Pays::class); // drapeau/pays
-        yield MenuItem::linkToCrud('Cépages', 'fa-solid fa-seedling', Cepage::class); // plant/vigne
-        yield MenuItem::linkToCrud('Types', 'fa-solid fa-tags', Type::class); // étiquette/type
+        yield MenuItem::linkToCrud('Bouteilles', 'fa-solid fa-wine-bottle', Bouteilles::class);
+        yield MenuItem::linkToCrud('Caves', 'fa-solid fa-warehouse', Caves::class);
+        yield MenuItem::linkToCrud('Commentaires des Caves', 'fa-solid fa-comment-dots', CommentairesCaves::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', User::class);
+        yield MenuItem::linkToCrud('Regions', 'fa-solid fa-mountain', Region::class);
+        yield MenuItem::linkToCrud('Pays', 'fa-solid fa-flag', Pays::class);
+        yield MenuItem::linkToCrud('Cépages', 'fa-solid fa-seedling', Cepage::class);
+        yield MenuItem::linkToCrud('Types', 'fa-solid fa-tags', Type::class);
     }
 }

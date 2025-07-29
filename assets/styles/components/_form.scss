@@ -131,11 +131,16 @@
     margin-bottom: 6rem;
     align-items: flex-end;
 
-    > div {
+    .form-group {
         display: flex;
         flex-direction: column;
         min-width: 150px;
         flex: 1;
+    }
+
+    .checkboxes-inline {
+        flex-direction: row;
+        align-items: center;
     }
 
     label {

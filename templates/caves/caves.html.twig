@@ -29,4 +29,32 @@
             </a>
         {% endfor %}
     </section>
+    {# PAGINATION PERSONNALISÉE #}
+    {% if caves is defined and caves.paginationData is defined %}
+        <div class="pagination">
+            <ul>
+                {% if caves.paginationData.previous is defined %}
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': caves.paginationData.previous})) }}">&laquo;</a>
+                    </li>
+                {% endif %}
+
+                {% for i in 1..caves.paginationData.pageCount %}
+                    <li class="{{ i == caves.paginationData.current ? 'current' : '' }}">
+                        {% if i == caves.paginationData.current %}
+                            <span>{{ i }}</span>
+                        {% else %}
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
+                {% if caves.paginationData.next is defined %}
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': caves.paginationData.next})) }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
