@@ -36,7 +36,7 @@ Application Symfony pour la gestion de cave à vin personnelle.
 ## Utilisation
 Lancer le serveur Symfony :
 ```bash
-symfony serve
+symfony server:start
 ```
 Accéder à l’application sur [http://localhost:8000](http://localhost:8000)
 
