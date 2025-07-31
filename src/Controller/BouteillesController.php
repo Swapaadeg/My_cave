@@ -60,7 +60,7 @@ final class BouteillesController extends AbstractController
         return new JsonResponse(['regions' => $data]);
     }
 
-    //verification et convertion des filtres pour s'assurer qu'ils sont au bon format
+    //verification et conversion des filtres pour s'assurer qu'ils sont au bon format
     private function normalizeFilters(array $filters, array $submittedData): array
     {
         $mapInt = fn($v) => is_numeric($v) ? (int)$v : $v;

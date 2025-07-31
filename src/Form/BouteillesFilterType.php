@@ -62,7 +62,7 @@ class BouteillesFilterType extends AbstractType
                 'required' => false,
                 'label' => 'Millésime',
                 'attr' => [
-                    'min' => 1900,
+                    'min' => 1000,
                     'max' => (int) (new \DateTime())->format('Y'),
                 ],
             ]);

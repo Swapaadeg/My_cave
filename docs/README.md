@@ -52,7 +52,7 @@ gertrude@gertrude.com
 
 ## Compte Admin
 swap@gmail.com
-123456
+1234567
 ## Liens utiles
 - [Documentation Symfony](https://symfony.com/doc/current/index.html)
 - [EasyAdmin](https://github.com/EasyCorp/EasyAdminBundle)
